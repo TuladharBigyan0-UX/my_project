@@ -1,0 +1,135 @@
+/* ===============================
+   Global Styles
+================================= */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: #0b0f0c; /* deep dark green-black */
+    color: #d8ffd6; /* light mint green text */
+    line-height: 1.8;
+}
+
+.container {
+    width: 85%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ===========================
+   BACK BUTTON
+=========================== */
+.back-btn {
+    position: relative;
+    top: 50px;
+    left: 25px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    color: #d0d9e8;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+.btn:hover {
+    background-color: #009624;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid #00c853;
+    color: #00c853;
+}
+
+.btn-outline:hover {
+    background-color: #00c853;
+    color: white;
+}
+
+
+/* ===============================
+   Header
+================================= */
+
+.about-header {
+    background: linear-gradient(135deg, #0f1a13, #0a120d);
+    padding: 80px 0;
+    text-align: center;
+    border-bottom: 1px solid rgba(0,255,90,0.08);
+    box-shadow: 0 4px 25px rgba(0,255,90,0.15);
+}
+
+.about-header h1 {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    background: linear-gradient(90deg, #00ff88, #32ff72);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.about-header p {
+    font-size: 18px;
+    color: #a5e6b6;
+}
+
+
+/* ===============================
+   Content Section
+================================= */
+
+.about-content {
+    padding: 50px 0;
+}
+
+/* Glass + Glow Card */
+.section-card {
+    background: rgba(0, 255, 90, 0.05);
+    padding: 40px;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 255, 120, 0.15);
+    margin-bottom: 35px;
+    box-shadow: 0 0 18px rgba(0,255,120,0.08);
+    backdrop-filter: blur(6px);
+    transition: 0.25s ease;
+}
+
+.section-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(0,255,130,0.25);
+    border-color: rgba(0, 255, 120, 0.35);
+}
+
+.section-card h2 {
+    font-size: 26px;
+    font-weight: 600;
+    color: #50ffa4;
+    margin-bottom: 15px;
+}
+
+/* Lists */
+.section-card ul,
+.section-card ol {
+    margin-left: 20px;
+    color: #d8ffd6;
+}
+
+.section-card li {
+    margin-bottom: 8px;
+}
+
+
+/* ===============================
+   Divider (Animated Green Glow)
+================================= */
+
+.section-divider {
+    height: 2px;
+    margin: 40px 0;
+    background: linear-gradient(90deg, transparent, #00ff88, transparent);
+    box-shadow: 0 0 10px #00ff88;
+}
+
+

@@ -1,0 +1,175 @@
+/* ===========================
+   GLOBAL
+=========================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+body {
+    background: radial-gradient(circle at top, #0f1c2f, #07101d 70%);
+    height: 100vh;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* ===========================
+   BACK BUTTON
+=========================== */
+.back-btn {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    color: #d0d9e8;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ===========================
+   LOGIN CARD (Glass Effect)
+=========================== */
+.login-card {
+    width: 480px;
+    padding: 50px 40px;
+    border-radius: 22px;
+
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.5);
+
+    text-align: center;
+    animation: fadeIn 0.9s ease;
+}
+
+/* ===========================
+   HEADER ICON
+=========================== */
+.logo {
+    width: 85px;
+    height: 85px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 40px;
+
+
+    margin: 0 auto 15px auto;
+
+}
+
+/* ===========================
+   TITLES
+=========================== */
+h2 {
+    margin-bottom: 6px;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #b7c5d8;
+    margin-bottom: 30px;
+}
+
+/* ===========================
+   INPUT FIELDS
+=========================== */
+label {
+    display: block;
+    text-align: left;
+    margin: 10px 0 6px;
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: #f3f7ff;
+    font-size: 15px;
+    outline: none;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+    border-color: #0ae064;
+    box-shadow: 0 0 8px rgba(10, 224, 100, 0.5);
+}
+
+input::placeholder {
+    color: #96a3b8;
+}
+
+/* ===========================
+   BUTTON
+=========================== */
+.btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 18px;
+    background: linear-gradient(135deg, #0ae064, #06c456);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    font-weight: 600;
+    box-shadow: 0 6px 20px rgba(10, 224, 100, 0.35);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(10, 224, 100, 0.55);
+}
+
+.signup-link {
+    display: flex;
+    gap: 8px;
+    padding: 20px 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-link a {
+    color: #0ae064;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* ===========================
+   ANIMATIONS
+=========================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

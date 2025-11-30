@@ -1,0 +1,136 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.back-btn {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    color: #d0d9e8;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+.signup-container {
+    background-color: #1e1e2f;
+    padding: 40px;
+    border-radius: 12px;
+    width: 800px;
+    height: auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.signup-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.signup-container p {
+    text-align: center;
+    color: #b0b0b0;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: #2a2a3d;
+    color: #e0e0e0;
+    font-size: 1rem;
+}
+
+.form-group input::placeholder {
+    color: #888;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #00c851;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #00b342;
+}
+
+.signin-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.signin-link a {
+    color: #00c851;
+    text-decoration: none;
+}
+
+.back-home {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #b0b0b0;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.back-home:hover {
+    text-decoration: underline;
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 15px auto;
+}
+
+
