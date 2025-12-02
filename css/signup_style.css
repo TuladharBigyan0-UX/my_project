@@ -88,30 +88,36 @@ body {
 
 .submit-btn {
     width: 100%;
-    padding: 12px;
-    background-color: #00c851;
-    color: white;
+    padding: 14px;
+    margin-top: 18px;
+    background: linear-gradient(135deg, #0ae064, #06c456);
+    color: #fff;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
+    border-radius: 12px;
+    font-size: 17px;
     cursor: pointer;
-    margin-top: 20px;
-    transition: background 0.3s;
+    transition: 0.25s ease;
+    font-weight: 600;
+    box-shadow: 0 6px 20px rgba(10, 224, 100, 0.35);
 }
 
 .submit-btn:hover {
-    background-color: #00b342;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(10, 224, 100, 0.55);
 }
 
 .signin-link {
-    text-align: center;
-    margin-top: 15px;
+       display: flex;
+    gap: 8px;
+    padding: 20px 0;
+    justify-content: center;
+    align-items: center;
 }
 
 .signin-link a {
-    color: #00c851;
+    color: #0ae064;
     text-decoration: none;
+    font-weight: 600;
 }
 
 .back-home {

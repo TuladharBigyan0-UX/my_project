@@ -4,7 +4,7 @@ const studentFields = document.getElementById("studentFields");
 function toggleFields() {
     if (roleSelect.value === "Student") {
         studentFields.style.display = "block";
-    } else {
+    } else if (roleSelect.value === "Teacher") {
         studentFields.style.display = "none";
     }
 }
