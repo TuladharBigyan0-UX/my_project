@@ -314,6 +314,7 @@ nav ul li a:hover {
     margin-bottom: 30px;
     line-height: 1.6;
     color: #cfcfcf;
+    width: 80%;
 }
 
 .contact-info ul {
