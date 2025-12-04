@@ -1,0 +1,3 @@
+CREATE DATABASE Library_DB;
+USE Library_DB;
+

@@ -1,3 +1,6 @@
+/* ==========================
+   Global Reset & Fonts
+========================== */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -9,11 +12,15 @@ body {
     background-color: #121212;
     color: #e0e0e0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     min-height: 100vh;
+    padding-top: 100px; /* space for back button */
 }
 
+/* ==========================
+   Back Button
+========================== */
 .back-btn {
     position: fixed;
     top: 25px;
@@ -31,13 +38,18 @@ body {
 .back-btn:hover {
     background: rgba(255, 255, 255, 0.1);
 }
+
+/* ==========================
+   Signup Container
+========================== */
 .signup-container {
     background-color: #1e1e2f;
     padding: 40px;
     border-radius: 12px;
-    width: 800px;
-    height: auto;
+    width: 480px;
+    max-width: 90%;
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    margin-bottom: 50px;
 }
 
 .signup-container h2 {
@@ -52,6 +64,9 @@ body {
     margin-bottom: 30px;
 }
 
+/* ==========================
+   Form Groups
+========================== */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -65,7 +80,7 @@ body {
 
 .form-group input,
 .form-group select {
-    padding: 10px;
+    padding: 12px;
     border-radius: 8px;
     border: none;
     background-color: #2a2a3d;
@@ -77,6 +92,7 @@ body {
     color: #888;
 }
 
+/* Flex row for multiple inputs */
 .form-row {
     display: flex;
     gap: 10px;
@@ -86,6 +102,9 @@ body {
     flex: 1;
 }
 
+/* ==========================
+   Submit Button
+========================== */
 .submit-btn {
     width: 100%;
     padding: 14px;
@@ -106,8 +125,11 @@ body {
     box-shadow: 0 12px 25px rgba(10, 224, 100, 0.55);
 }
 
+/* ==========================
+   Signin Link
+========================== */
 .signin-link {
-       display: flex;
+    display: flex;
     gap: 8px;
     padding: 20px 0;
     justify-content: center;
@@ -120,23 +142,34 @@ body {
     font-weight: 600;
 }
 
-.back-home {
-    display: inline-block;
-    margin-bottom: 20px;
-    color: #b0b0b0;
-    text-decoration: none;
-    font-size: 0.9rem;
-}
-
-.back-home:hover {
-    text-decoration: underline;
-}
-
+/* ==========================
+   Icon (Logo)
+========================== */
 .icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto 15px auto;
+    margin-bottom: 20px;
 }
 
+/* ==========================
+   Contact & Address Adjustments
+========================== */
+.form-group input[name="contact"],
+.form-group input[name="address"] {
+    background-color: #2a2a3d;
+    color: #e0e0e0;
+}
 
+/* ==========================
+   Responsive adjustments
+========================== */
+@media (max-width: 480px) {
+    .signup-container {
+        padding: 30px 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+}

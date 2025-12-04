@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/signup_style.css">
 </head>
-
 <body>
 
     <a href="index.html" class="back-btn">← Back to Home</a>
@@ -23,46 +22,34 @@
 
         <form id="signupForm" action="../php/signup.php" method="POST">
 
-            <!-- Full Name + Email -->
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Full Name *</label>
-                    <input type="text" name="fullname" placeholder="Your Full Name" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Email Address *</label>
-                    <input type="email" name="email" placeholder="Your Email" required>
-                </div>
+            <!-- Full Name -->
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" name="fullname" placeholder="Your Full Name" required>
             </div>
 
-            <!-- Password + Confirm -->
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Password *</label>
-                    <input type="password" name="password" placeholder="********" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Confirm Password *</label>
-                    <input type="password" name="confirm_password" placeholder="********" required>
-                </div>
+            <!-- Email -->
+            <div class="form-group">
+                <label>Email Address *</label>
+                <input type="email" name="email" placeholder="Your Email" required>
             </div>
 
-            <!-- Role + Contact -->
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Role *</label>
-                    <select name="role" required>
-                        <option value="User">User</option>
-                        <option value="Librarian">Librarian</option>
-                    </select>
-                </div>
+            <!-- Password -->
+            <div class="form-group">
+                <label>Password *</label>
+                <input type="password" name="password" placeholder="********" required>
+            </div>
 
-                <div class="form-group">
-                    <label>Contact Number</label>
-                    <input type="text" name="contact" placeholder="9*********">
-                </div>
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <label>Confirm Password *</label>
+                <input type="password" name="confirm_password" placeholder="********" required>
+            </div>
+
+            <!-- Contact Number -->
+            <div class="form-group">
+                <label>Contact Number</label>
+                <input type="text" name="contact" placeholder="9*********">
             </div>
 
             <!-- Address -->
@@ -75,8 +62,9 @@
             <button type="submit" class="submit-btn">Sign Up</button>
 
             <div class="signin-link">
-                Already have an account? <a href= "login.html">Login</a>
+                Already have an account? <a href="login.html">Login</a>
             </div>
+
         </form>
     </div>
 
