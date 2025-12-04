@@ -59,13 +59,13 @@ if ($result && $result->num_rows === 1) {
 
     } else {
         // Password wrong
-        echo "<h2 style='color:red; text-align:center;'>Invalid email or password!</h2>";
+        echo "<script>alert(Invalid Password);</script>";
         exit();
     }
 
 } else {
     // Email not found
-    echo "<h2 style='color:red; text-align:center;'>Invalid email or password!</h2>";
+    echo "<script>alert(There is no user with the given email);</script>";
     exit();
 }
 ?>
