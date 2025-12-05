@@ -1,8 +1,9 @@
 <?php
 $server = "localhost";
-$username = "LIBRARY-MS";
-$password = "12345";
-$db_name = "library_db";
+$username = "LibraryMS";    
+$password = "12345";         
+$db_name = "library_db";     
+
 
 // Create connection using OOP style
 $conn = new mysqli($server, $username, $password, $db_name);

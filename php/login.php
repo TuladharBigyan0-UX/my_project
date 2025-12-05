@@ -41,19 +41,19 @@ if ($result && $result->num_rows === 1) {
         // Redirect based on role
         switch ($_SESSION['role']) {
             case 'admin':
-                header("Location: admin_dashboard.php");
+                header("Location: ../dashboard/admin_dashboard.php");
                 break;
 
             case 'librarian':
-                header("Location: librarian_dashboard.php");
+                header("Location: ../dashboard/librarian_dashboard.php");
                 break;
 
             case 'member':
-                header("Location: member_dashboard.php");
+                header("Location: ../dashboard/member_dashboard.php");
                 break;
 
             default:
-                header("Location: dashboard.php");
+                header("Location: ../dashboard/dashboard.php");
         }
         exit();
 
