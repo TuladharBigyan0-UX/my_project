@@ -1,71 +1,94 @@
 <?php
-// Start session
 session_start();
-require_once "connection.php";
+include('connection.php');
 
-// Check if form submitted
-if (empty($_POST['email']) || empty($_POST['password'])) {
-    die("Please fill both email and password fields!");
-}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-$email = trim($_POST['email']);
-$password = $_POST['password'];
+    $email = mysqli_real_escape_string($conn, trim($_POST['email']));
+    $password = $_POST['password'];
 
-// Prepare SQL
-$sql = "SELECT user_id, fullname, email, password, role FROM users WHERE email = ?";
-$stmt = $conn->prepare($sql);
+    $sql = "SELECT * FROM users WHERE email = '$email'";
+    $stmt = mysqli_query($conn, $sql);
 
-if (!$stmt) {
-    die("Database error: " . $conn->error);
-}
+    if ($stmt && mysqli_num_rows($stmt) > 0) {
+        $res = mysqli_fetch_assoc($stmt);
 
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
+        if (password_verify($password, $res['password'])) { // use password_verify() if hashed
+            $_SESSION['user'] = [
+            'id' => $res['id'],
+            'role' => $res['role'],
+            'fullname' => $res['fullname']
+            ];
 
-if ($result && $result->num_rows === 1) {
+            // Redirect based on role
+            switch ($_SESSION['user']['role']) {
+                case 'admin':
+                    header("Location: ../dashboard/admin_dashboard.php");
+                    exit();
+                case 'librarian':
+                    header("Location: ../dashboard/librarian_dashboard.php");
+                    exit();
+                case 'member':
+                    header("Location: ../dashboard/member_dashboard.php");
+                    exit();
+                default:
+                    header("Location: ../dashboard/dashboard.php");
+                    exit();
+            }
 
-    $user = $result->fetch_assoc();
-
-    // Verify password
-    if (password_verify($password, $user['password'])) {
-
-        // Secure session
-        session_regenerate_id(true);
-
-        $_SESSION['user_id']  = $user['user_id'];
-        $_SESSION['fullname'] = $user['fullname'];
-        $_SESSION['email']    = $user['email'];
-        $_SESSION['role']     = strtolower($user['role']);
-
-        // Redirect based on role
-        switch ($_SESSION['role']) {
-            case 'admin':
-                header("Location: ../dashboard/admin_dashboard.php");
-                break;
-
-            case 'librarian':
-                header("Location: ../dashboard/librarian_dashboard.php");
-                break;
-
-            case 'member':
-                header("Location: ../dashboard/member_dashboard.php");
-                break;
-
-            default:
-                header("Location: ../dashboard/dashboard.php");
+        } else {
+            echo "<script>alert('Invalid Password');</script>";
         }
-        exit();
 
     } else {
-        // Password wrong
-        echo "<h2 style='color:red; text-align:center;'>Invalid email or password!</h2>";
-        exit();
+        echo "<script>alert('There is no user with the given email');</script>";
     }
-
-} else {
-    // Email not found
-    echo "<h2 style='color:red; text-align:center;'>Invalid email or password!</h2>";
-    exit();
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Login</title>
+    <link rel="stylesheet" href="../css/login_style.css">
+</head>
+
+<body>
+
+    <a href="index.html" class="back-btn">← Back to Home</a>
+
+    <div class="login-container">
+        <div class="login-card">
+
+            <div class="logo">
+                <img src="../images/logo.png" alt="logo" height="80">
+            </div>
+
+            <h2>Library Management System</h2>
+            <p class="subtitle">Sign in to your account</p>
+
+            <form id="loginForm" action="login.php" method="POST">
+                <!-- Email -->
+                <label>Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+                <!-- Password -->
+                <label>Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <!-- Button -->
+                <button type="submit" class="btn">Sign In</button>
+            </form>
+
+            <div class="signup-link">
+                Don't have an account? <a href="signup.html">Sign Up</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,9 +1,8 @@
 <?php
 $server = "localhost";
-$username = "LibraryMS";    
-$password = "12345";         
-$db_name = "library_db";     
-
+$username = "LIBRARY_MS";
+$password = "12345";
+$db_name = "library_db";
 
 // Create connection using OOP style
 $conn = new mysqli($server, $username, $password, $db_name);
@@ -18,5 +17,5 @@ if ($conn->connect_error) {
 }
 
 // Connection successful (optional message, remove in production)
-echo "Connected successfully";
+// echo "Connected successfully";
 ?>

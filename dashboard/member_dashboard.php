@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'member') {
-    header("Location: login.html");
+    header("Location:login.php");
     exit();
 }
 
@@ -29,7 +29,7 @@ $user = $_SESSION['user'];
             <li><a href="#">My Issued Books</a></li>
             <li><a href="#">Issue History</a></li>
             <li><a href="#">Profile</a></li>
-            <li class="logout"><a href="logout.php">Logout</a></li>
+            <li class="logout"><a href="../php/logout.php">Logout</a></li>
         </ul>
     </aside>
 
