@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
 
-    <a href="index.html" class="back-btn">← Back to Home</a>
+    <a href="../html/index.html" class="back-btn">← Back to Home</a>
 
     <div class="login-container">
         <div class="login-card">

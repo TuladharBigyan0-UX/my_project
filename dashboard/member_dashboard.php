@@ -10,11 +10,11 @@ $user = $_SESSION['user'];
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Member Dashboard</title>
+    <head>
+        <title>Member Dashboard</title>
     <link rel="stylesheet" href="../css/dashboard.css">
-</head>
-<body>
+    </head>
+    <body>
 
 <div class="dashboard">
 
@@ -40,3 +40,6 @@ $user = $_SESSION['user'];
 </div>
 </body>
 </html>
+    </main>  
+    </body>
+    </html>

@@ -91,6 +91,20 @@ body {
 .form-group input::placeholder {
     color: #888;
 }
+.password-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 12px;
+}
+
 
 /* Flex row for multiple inputs */
 .form-row {

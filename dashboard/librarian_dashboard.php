@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'librarian') {
-    header("Location: login.html");
+    header("Location: login.php");
     exit();
 }
 

@@ -24,8 +24,9 @@
 
             <!-- Full Name -->
             <div class="form-group">
-                <label>Full Name *</label>
-                <input type="text" name="fullname" placeholder="Your Full Name" required>
+            <label>Full Name *</label>
+            <input type="text" name="fullname" placeholder="Your Full Name" required>
+            
             </div>
 
             <!-- Email -->
@@ -37,19 +38,28 @@
             <!-- Password -->
             <div class="form-group">
                 <label>Password *</label>
-                <input type="password" name="password" placeholder="********" required>
+                <div class="password-wrapper">
+                <input type="password" name="password" id="password" placeholder="********" required>
+                <button type="button" class="toggle-btn" data-target="password">Show</button>
+            </div>
+            <small id="passwordError" style="color:red;"></small>
             </div>
 
             <!-- Confirm Password -->
             <div class="form-group">
                 <label>Confirm Password *</label>
-                <input type="password" name="confirm_password" placeholder="********" required>
+                <div class="password-wrapper">
+                <input type="password" name="confirm_password" id="confirm_password" placeholder="********" required>
+                <button type="button" class="toggle-btn" data-target="confirm_password">Show</button>
+                </div>
+                <small id="confirmPasswordError" style="color:red;"></small>
             </div>
 
             <!-- Contact Number -->
             <div class="form-group">
                 <label>Contact Number</label>
-                <input type="text" name="contact" placeholder="9*********">
+                <input type="text" name="contact" pattern="^9[6-8][0-9]{8}$" placeholder="9*********" maxlength="10" required>
+                <small id="contactError" style="color:red;"></small>
             </div>
 
             <!-- Address -->
@@ -67,6 +77,7 @@
 
         </form>
     </div>
+    <script src="../js/password_validation.js"></script>
 
 </body>
 </html>

@@ -1,68 +1,64 @@
 <?php
-include ("connection.php");
+include("connection.php");
 
-// Check if form is submitted
+$errors = [];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Get and sanitize form inputs
-    $fullname = trim($_POST['fullname']);
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
-    $contact = trim($_POST['contact']);
-    $address = trim($_POST['address']);
-    $role = 'member'; // default role for self-signup
+    $fullname = trim($_POST['fullname'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
+    $contact = trim($_POST['contact'] ?? '');
+    $address = trim($_POST['address'] ?? '');
+    $role = 'member';
 
-    // Password match validation
-    if ($password !== $confirm_password) {
-        header("Location: signup_error.php?error=password_mismatch");
-        exit();
-    }
+    // Validation
+    if (!preg_match('/^9[6-8][0-9]{8}$/', $contact)) $errors['contact'] = "Contact invalid.";
+    if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W]).{8,}$/', $password)) $errors['password'] = "Password invalid.";
+    if ($password !== $confirm_password) $errors['confirm_password'] = "Passwords do not match.";
 
-    // Check if email already exists
-    $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-
-    if (!$stmt->execute()) {
-        error_log("Failed to check email existence: " . $stmt->error);
-        $stmt->close();
-        $conn->close();
-        header("Location: signup_error.php?error=server_error");
-        exit();
-    }
-
-    $stmt->store_result();
-    if ($stmt->num_rows > 0) {
-        $stmt->close();
-        $conn->close();
-        header("Location: signup_error.php?error=email_exists");
-        exit();
-    }
-    $stmt->close();
-
-    // Hash the password
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    // Insert new user
-    $stmt = $conn->prepare("
-        INSERT INTO users (fullname, email, password, role, contact, address) 
-        VALUES (?, ?, ?, ?, ?, ?)
-    ");
-    $stmt->bind_param("ssssss", $fullname, $email, $hashed_password, $role, $contact, $address);
-
-    if ($stmt->execute()) {
-        $stmt->close();
-        $conn->close();
-        header("Location: ../html/signup_success.html");
-        exit();
+    // Check email existence
+    $stmtSelect = $conn->prepare("SELECT user_id FROM users WHERE email=?");
+    if ($stmtSelect) {
+        $stmtSelect->bind_param("s", $email);
+        if (!$stmtSelect->execute()) {
+            $stmtSelect->close();
+            header("Location: ../html/signup_error.html?error=db_error");
+            exit();
+        }
+        $stmtSelect->store_result();
+        if ($stmtSelect->num_rows > 0) $errors['email'] = "Email already exists.";
+        $stmtSelect->close();
     } else {
-        error_log("Failed to create user: " . $stmt->error);
-        $stmt->close();
-        $conn->close();
-        header("Location: ../html/signup_error.html");
+        header("Location: ../html/signup_error.html?error=db_error");
+        exit();
+    }
+
+    // Insert user if no errors
+    if (!$errors) {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $stmtInsert = $conn->prepare("INSERT INTO users (fullname,email,password,role,contact,address) VALUES (?,?,?,?,?,?)");
+        if ($stmtInsert) {
+            $stmtInsert->bind_param("ssssss", $fullname, $email, $hashed_password, $role, $contact, $address);
+            if ($stmtInsert->execute()) {
+                $stmtInsert->close();
+                header("Location: ../html/signup_success.html");
+                exit();
+            } else {
+                $stmtInsert->close();
+                header("Location: ../html/signup_error.html?error=db_error");
+                exit();
+            }
+        } else {
+            header("Location: ../html/signup_error.html?error=db_error");
+            exit();
+        }
+    } else {
+        // Validation errors → redirect
+        header("Location: ../html/signup_error.html?error=validation");
         exit();
     }
 }
-
 $conn->close();
 ?>
