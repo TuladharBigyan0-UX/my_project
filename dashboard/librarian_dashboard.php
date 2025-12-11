@@ -31,7 +31,7 @@ $user = $_SESSION['user'];
             <li><a href="#">Return Books</a></li>
             <li><a href="#">Manage Members</a></li>
             <li><a href="#">Profile</a></li>
-            <li class="logout"><a href="logout.php">Logout</a></li>
+            <li class="logout"><a href="../php/logout.php">Logout</a></li>
         </ul>
     </aside>
 

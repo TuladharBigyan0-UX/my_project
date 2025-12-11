@@ -12,10 +12,11 @@ $user = $_SESSION['user'];
 <html>
 <head>
     <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>`
         <main class="content">
-        <h1>Welcome, <?= $user['fullname'] ?></h1>
+        <h1>Welcome <?= $user['fullname'] ?></h1>
         <div class="dashboard">
 
     <aside class="sidebar">

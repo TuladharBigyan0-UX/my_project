@@ -34,7 +34,7 @@ $user = $_SESSION['user'];
     </aside>
 
     <main class="content">
-        <h1>Welcome, <?= $user['fullname'] ?></h1>
+        <h1>Welcome <?= $user['fullname'] ?></h1>
     </main>
 
 </div>
