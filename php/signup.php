@@ -18,22 +18,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W]).{8,}$/', $password)) $errors['password'] = "Password invalid.";
     if ($password !== $confirm_password) $errors['confirm_password'] = "Passwords do not match.";
 
-    // Check email existence
-    $stmtSelect = $conn->prepare("SELECT user_id FROM users WHERE email=?");
-    if ($stmtSelect) {
-        $stmtSelect->bind_param("s", $email);
-        if (!$stmtSelect->execute()) {
-            $stmtSelect->close();
-            header("Location: ../html/signup_error.html?error=db_error");
-            exit();
-        }
-        $stmtSelect->store_result();
-        if ($stmtSelect->num_rows > 0) $errors['email'] = "Email already exists.";
-        $stmtSelect->close();
-    } else {
-        header("Location: ../html/signup_error.html?error=db_error");
-        exit();
-    }
+    
+  // Check if email already exists
+$sql = "SELECT email FROM users WHERE email = ?";
+$stmt = $conn->prepare($sql);
+
+$stmt->bind_param("s", $email);
+$stmt->execute();
+
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    echo "<script>
+            alert('Email already exists.');
+            window.location.href = 'login.php';
+          </script>";
+    exit;
+}
+
+$stmt->close();
+
 
     // Insert user if no errors
     if (!$errors) {
