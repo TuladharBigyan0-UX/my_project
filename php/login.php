@@ -7,41 +7,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = mysqli_real_escape_string($conn, trim($_POST['email']));
     $password = $_POST['password'];
 
+    // Fetch user by email
     $sql = "SELECT * FROM users WHERE email = '$email'";
-    $stmt = mysqli_query($conn, $sql);
+    $result = mysqli_query($conn, $sql);
 
-    if ($stmt && mysqli_num_rows($stmt) > 0) {
-        $res = mysqli_fetch_assoc($stmt);
+    if ($result && mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
 
-        if (password_verify($password, $res['password'])) { // use password_verify() if hashed
+        // Verify password (assuming it's hashed)
+        if (password_verify($password, $user['password'])) {
+
+            // Store user info in session
             $_SESSION['user'] = [
-            'id' => $res['id'],
-            'role' => $res['role'],
-            'fullname' => $res['fullname']
+                'id' => $user['id'],
+                'role' => $user['role'],
+                'fullname' => $user['fullname']
             ];
 
+            // Get role
+            $role = $user['role'];
+
             // Redirect based on role
-            switch ($_SESSION['user']['role']) {
-                case 'admin':
-                    header("Location: ../dashboard/admin_dashboard.php");
-                    exit();
-                case 'librarian':
-                    header("Location: ../dashboard/librarian_dashboard.php");
-                    exit();
-                case 'member':
-                    header("Location: ../dashboard/member_dashboard.php");
-                    exit();
-                default:
-                    header("Location: ../dashboard/dashboard.php");
-                    exit();
+            if ($role === 'admin') {
+                header("Location: ../dashboard/admin_dashboard.php");
+            } elseif ($role === 'librarian') {
+                header("Location: ../dashboard/librarian_dashboard.php");
+            } elseif ($role === 'member') {
+                header("Location: ../dashboard/member_dashboard.php");
+            } else {
+                // Fallback
+                header("Location: login.php");
             }
+            exit();
 
         } else {
-            echo "<script>alert('Invalid Password');</script>";
+            echo "<script>alert('Invalid password');</script>";
         }
 
     } else {
-        echo "<script>alert('There is no user with the given email');</script>";
+        echo "<script>alert('No user found with this email');</script>";
     }
 }
 ?>
@@ -77,6 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <!-- Password -->
                 <label>Password</label>
                 <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
                 <!-- Button -->
                 <button type="submit" class="btn">Sign In</button>
             </form>
