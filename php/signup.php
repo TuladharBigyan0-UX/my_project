@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contact = trim($_POST['contact'] ?? '');
     $address = trim($_POST['address'] ?? '');
     $role = 'member';
+    $status = 'pending';
 
     // Validation
     if (!preg_match('/^9[6-8][0-9]{8}$/', $contact)) $errors['contact'] = "Contact invalid.";
@@ -42,9 +43,9 @@ $stmt->close();
     // Insert user if no errors
     if (!$errors) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $stmtInsert = $conn->prepare("INSERT INTO users (fullname,email,password,role,contact,address) VALUES (?,?,?,?,?,?)");
+        $stmtInsert = $conn->prepare("INSERT INTO users (fullname,email,password,role,contact,address,status) VALUES (?,?,?,?,?,?,?)");
         if ($stmtInsert) {
-            $stmtInsert->bind_param("ssssss", $fullname, $email, $hashed_password, $role, $contact, $address);
+            $stmtInsert->bind_param("sssssss", $fullname, $email, $hashed_password, $role, $contact, $address, $status);
             if ($stmtInsert->execute()) {
                 $stmtInsert->close();
                 header("Location: ../html/signup_success.html");

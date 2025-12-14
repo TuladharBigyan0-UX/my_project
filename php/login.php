@@ -4,41 +4,42 @@ include('connection.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $email = mysqli_real_escape_string($conn, trim($_POST['email']));
+    $email = trim($_POST['email']);
     $password = $_POST['password'];
 
-    // Fetch user by email
-    $sql = "SELECT * FROM users WHERE email = '$email'";
-    $result = mysqli_query($conn, $sql);
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email=? LIMIT 1");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($result && mysqli_num_rows($result) > 0) {
-        $user = mysqli_fetch_assoc($result);
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
 
-        // Verify password (assuming it's hashed)
         if (password_verify($password, $user['password'])) {
 
-            // Store user info in session
-            $_SESSION['user'] = [
-                'id' => $user['id'],
-                'role' => $user['role'],
-                'fullname' => $user['fullname']
-            ];
-
-            // Get role
-            $role = $user['role'];
-
-            // Redirect based on role
-            if ($role === 'admin') {
-                header("Location: ../dashboard/admin_dashboard.php");
-            } elseif ($role === 'librarian') {
-                header("Location: ../dashboard/librarian_dashboard.php");
-            } elseif ($role === 'member') {
-                header("Location: ../dashboard/member_dashboard.php");
+            // Check approval for members
+            if ($user['role'] === 'member' && $user['status'] !== 'approved') {
+                echo "<script>alert('Your account is not approved yet by admin.');</script>";
             } else {
-                // Fallback
-                header("Location: login.php");
+                // Login success
+                $_SESSION['user'] = [
+                    'id' => $user['id'], // or user_id if your PK is different
+                    'role' => $user['role'],
+                    'fullname' => $user['fullname']
+                ];
+
+                // Redirect based on role
+                if ($user['role'] === 'admin') {
+                    header("Location: ../dashboard/admin_dashboard.php");
+                } elseif ($user['role'] === 'librarian') {
+                    header("Location: ../dashboard/librarian_dashboard.php");
+                } elseif ($user['role'] === 'member') {
+                    header("Location: ../dashboard/member_dashboard.php");
+                } else {
+                    header("Location: login.php");
+                }
+                exit();
             }
-            exit();
 
         } else {
             echo "<script>alert('Invalid password');</script>";

@@ -26,9 +26,9 @@ $user = $_SESSION['user'];
         </div>
 
         <ul class="menu">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Manage Librarians</a></li>
-            <li><a href="#">Manage Members</a></li>
+            <li><a href="#" class="active">Dashboard</a></li>
+            <li><a href="../php/manage_librarian.php">Manage Librarians</a></li>
+            <li><a href="../php/manage_member.php">Manage Members</a></li>
             <li><a href="#">View Reports</a></li>
             <li><a href="#">Profile</a></li>
             <li class="logout"><a href="../php/logout.php">Logout</a></li>

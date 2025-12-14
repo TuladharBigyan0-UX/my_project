@@ -146,3 +146,102 @@ body {
     flex: 1;
     padding: 40px;
 }
+   .menu li a.active {
+            background-color: #0ae064;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .menu li a:hover {
+            background-color:#0ae064;
+            color: white;
+            border-radius: 5px;
+        }
+        /* =========================
+   WHITE TABLE STYLE
+   ========================= */
+
+.book-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #ffffff;
+    color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.book-table th {
+    background: #0ae064;
+    color: #000;
+    padding: 14px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.book-table td {
+    padding: 14px;
+    border-bottom: 1px solid #ddd;
+}
+
+.book-table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.book-table tr:hover {
+    background: #e6ffe9;
+}
+   /* -------------------------
+           WHITE TABLE STYLE
+           ------------------------- */
+        .librarian-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #ffffff;
+            color: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .librarian-table th {
+            background: #0ae064;
+            color: #000;
+            padding: 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .librarian-table td {
+            padding: 14px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .librarian-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .librarian-table tr:hover {
+            background: #e6ffe9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #0ae064;
+            color: #000;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 15px;
+        }
+
+        .btn:hover {
+            background: #08c050;
+            color: #fff;
+        }
+
+        /* Make table scrollable on small screens */
+        .table-wrapper {
+            overflow-x: auto;
+        }
