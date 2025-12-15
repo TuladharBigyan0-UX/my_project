@@ -17,38 +17,91 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (password_verify($password, $user['password'])) {
 
-            // Check approval for members
+            // Member approval check
             if ($user['role'] === 'member' && $user['status'] !== 'approved') {
                 echo "<script>alert('Your account is not approved yet by admin.');</script>";
-            } else {
-                // Login success
-                $_SESSION['user'] = [
-                    'id' => $user['id'], // or user_id if your PK is different
-                    'role' => $user['role'],
-                    'fullname' => $user['fullname']
-                ];
-
-                // Redirect based on role
-                if ($user['role'] === 'admin') {
-                    header("Location: ../dashboard/admin_dashboard.php");
-                } elseif ($user['role'] === 'librarian') {
-                    header("Location: ../dashboard/librarian_dashboard.php");
-                } elseif ($user['role'] === 'member') {
-                    header("Location: ../dashboard/member_dashboard.php");
-                } else {
-                    header("Location: login.php");
-                }
                 exit();
             }
 
+            $_SESSION['user'] = [
+                'id'       => $user['id'],
+                'fullname' => $user['fullname'],
+                'email'    => $user['email'],
+                'role'     => $user['role']
+            ];
+
+            // Redirect by role
+            if ($user['role'] === 'admin') {
+                header("Location: ../dashboard/admin_dashboard.php");
+            } elseif ($user['role'] === 'member') {
+                header("Location: ../dashboard/member_dashboard.php");
+            }
+            exit();
         } else {
             echo "<script>alert('Invalid password');</script>";
+            exit();
         }
-
-    } else {
-        echo "<script>alert('No user found with this email');</script>";
     }
+      /* =======================
+       2. CHECK LIBRARIANS TABLE
+    ======================= */
+    $stmt = $conn->prepare("SELECT * FROM librarians WHERE email = ? LIMIT 1");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $libResult = $stmt->get_result();
+
+    if ($libResult->num_rows === 1) {
+        $lib = $libResult->fetch_assoc();
+
+        if (password_verify($password, $lib['password'])) {
+
+            $_SESSION['user'] = [
+                'id'       => $lib['id'],
+                'fullname' => $lib['fullname'],
+                'email'    => $lib['email'],
+                'role'     => 'librarian'
+            ];
+
+            header("Location: ../dashboard/librarian_dashboard.php");
+            exit();
+        } else {
+            echo "<script>alert('Invalid password');</script>";
+            exit();
+        }
+    }
+     /* =======================
+       2. CHECK LIBRARIANS TABLE
+    ======================= */
+    $stmt = $conn->prepare("SELECT * FROM librarians WHERE email = ? LIMIT 1");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $libResult = $stmt->get_result();
+
+    if ($libResult->num_rows === 1) {
+        $lib = $libResult->fetch_assoc();
+
+        if (password_verify($password, $lib['password'])) {
+
+            $_SESSION['user'] = [
+                'id'       => $lib['id'],
+                'fullname' => $lib['fullname'],
+                'email'    => $lib['email'],
+                'role'     => 'librarian'
+            ];
+            header("Location: ../dashboard/librarian_dashboard.php");
+            exit();
+        } else {
+            echo "<script>alert('Invalid password');</script>";
+            exit();
+        }
+    }
+
+    /* =======================
+       NO USER FOUND
+    ======================= */
+    echo "<script>alert('No user found with this email');</script>";
 }
+           
 ?>
 <!DOCTYPE html>
 <html lang="en">

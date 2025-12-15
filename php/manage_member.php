@@ -53,8 +53,8 @@ if ($filter === 'pending') {
     <link rel="stylesheet" href="../css/dashboard.css">
     <style>
         .filter-buttons { margin-bottom: 15px; }
-        .filter-buttons .btn { margin-right: 5px; text-decoration: none; padding: 5px 10px; border: 1px solid #333; border-radius: 4px; background: #f0f0f0; }
-        .filter-buttons .btn:hover { background: #ddd; }
+        .filter-buttons .btn { margin-right: 5px; text-decoration: none; padding: 5px 10px; border: 1px solid #333; border-radius: 4px; background: #0ae064; }
+        .filter-buttons .btn:hover { background:#0ae064; }
     </style>
 </head>
 <body>
@@ -69,7 +69,7 @@ if ($filter === 'pending') {
         </div>
 
         <ul class="menu">
-            <li><a href="dashboard.php">Dashboard</a></li>
+            <li><a href="admin_dashboard.php">Dashboard</a></li>
             <li><a href="manage_librarian.php">Manage Librarians</a></li>
             <li><a href="manage_member.php" class="active">Manage Members</a></li>
             <li><a href="#">View Reports</a></li>

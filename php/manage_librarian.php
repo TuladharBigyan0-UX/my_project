@@ -51,7 +51,7 @@ $result = $conn->query("SELECT * FROM librarians ORDER BY id DESC");
         </div>
 
         <ul class="menu">
-            <li><a href="dashboard.php">Dashboard</a></li>
+            <li><a href="admin_dashboard.php">Dashboard</a></li>
             <li><a href="manage_librarian.php" class="active">Manage Librarians</a></li>
             <li><a href="manage_member.php">Manage Members</a></li>
             <li><a href="#">View Reports</a></li>
