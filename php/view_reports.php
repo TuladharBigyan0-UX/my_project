@@ -168,8 +168,9 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
             <li><a href="../dashboard/admin_dashboard.php">Dashboard</a></li>
             <li><a href="manage_librarian.php">Manage Librarians</a></li>
             <li><a href="manage_member.php">Manage Members</a></li>
+            <li><a href="return_books.php">Return Books</a></li>
             <li><a href="view_reports.php" class="active">View Reports</a></li>
-            <li><a href="#">Profile</a></li>
+            <li><a href="profile.php">Profile</a></li>
             <li class="logout"><a href="logout.php">Logout</a></li>
         </ul>
     </aside>

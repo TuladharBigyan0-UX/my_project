@@ -95,8 +95,9 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
             <li><a href="admin_dashboard.php" class="active">Dashboard</a></li>
             <li><a href="../php/manage_librarian.php">Manage Librarians</a></li>
             <li><a href="../php/manage_member.php">Manage Members</a></li>
+            <li><a href="../php/return_books.php">Return Books</a></li>
             <li><a href="../php/view_reports.php">View Reports</a></li>
-            <li><a href="#">Profile</a></li>
+            <li><a href="../php/profile.php">Profile</a></li>
             <li class="logout"><a href="../php/logout.php">Logout</a></li>
         </ul>
     </aside>

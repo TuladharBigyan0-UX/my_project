@@ -54,8 +54,9 @@ $result = $conn->query("SELECT * FROM librarians ORDER BY id DESC");
             <li><a href="../dashboard/admin_dashboard.php">Dashboard</a></li>
             <li><a href="manage_librarian.php" class="active">Manage Librarians</a></li>
             <li><a href="manage_member.php">Manage Members</a></li>
+            <li><a href="return_books.php">Return Books</a></li>
             <li><a href="view_reports.php">View Reports</a></li>
-            <li><a href="#">Profile</a></li>
+            <li><a href="profile.php">Profile</a></li>
             <li class="logout"><a href="../php/logout.php">Logout</a></li>
         </ul>
     </aside>
