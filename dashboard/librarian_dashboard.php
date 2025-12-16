@@ -33,7 +33,8 @@ $user = $_SESSION['user'];
             <li><a href="librarian_dashboard.php" class="active">Dashboard</a></li>
             <li><a href="#">Manage Books</a></li>
             <li><a href="#">Issue Books</a></li>
-            <li><a href="#">Return Books</a></li>
+            <li><a href="../php/return_books.php">Return Books</a></li>
+            <li><a href="view_reports.php">View Reports</a></li>
             <li><a href="#">Manage Members</a></li>
             <li><a href="#">Profile</a></li>
             <li class="logout"><a href="../php/logout.php">Logout</a></li>
