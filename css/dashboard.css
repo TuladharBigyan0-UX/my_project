@@ -1,167 +1,259 @@
+/* ====================================
+   LIBRARY MANAGEMENT SYSTEM - CSS
+   Updated & Unified Dashboard Styles
+==================================== */
+
+:root {
+    --green: #0ae064;
+    --green-hover: #08c050;
+    --dark-bg: #121212;
+    --sidebar-bg: #1a1f2e;
+    --card-bg: #1e2433;
+    --border-color: #2a2f3e;
+    --text-primary: #ffffff;
+    --text-secondary: #8a92a6;
+    --text-muted: #6a7280;
+}
+
+/* ====================================
+   GLOBAL RESET
+==================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Inter, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 body {
-    background: #121212;
-    color: #fff;
+    background: var(--dark-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
 }
 
+/* ====================================
+   DASHBOARD LAYOUT
+==================================== */
 .dashboard {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
 }
 
-/* LEFT SIDEBAR */
+/* ====================================
+   SIDEBAR
+==================================== */
 .sidebar {
     width: 260px;
-    background: #1e1e2f;
+    background: var(--sidebar-bg);
     padding: 20px;
+    border-right: 1px solid var(--border-color);
+    min-height: 100vh;
 }
 
 .profile-box {
     text-align: center;
     margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .profile-box h3 {
     font-size: 18px;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+    font-weight: 600;
 }
 
 .profile-box p {
-    color: #0ae064;
+    color: var(--green);
     font-size: 14px;
+    font-weight: 500;
 }
 
+/* Sidebar Menu */
 .menu {
     list-style: none;
 }
 
 .menu li {
-    margin: 12px 0;
+    margin: 8px 0;
 }
 
 .menu li a {
-    text-decoration: none;
-    color: #ccc;
     display: block;
-    padding: 10px;
+    padding: 12px 15px;
+    color: #b0b0b0;
+    text-decoration: none;
     border-radius: 8px;
+    transition: all 0.3s ease;
+    font-size: 14px;
 }
 
-.menu li a:hover {
-    background: #0ae064;
+.menu li a:hover,
+.menu li a.active {
+    background: var(--green);
     color: #000;
+    font-weight: 500;
 }
 
-.logout a {
-    background: crimson;
-    color: white !important;
+.menu li.logout a {
+    background: #dc3545;
+    color: white;
     text-align: center;
+    margin-top: 10px;
 }
 
-/* MAIN */
-.content {
+.menu li.logout a:hover {
+    background: #c82333;
+}
+
+/* ====================================
+   MAIN CONTENT
+==================================== */
+.content,
+.main {
     flex: 1;
     padding: 40px;
+    background: var(--dark-bg);
 }
 
-.cards {
-    display: flex;
+.content h1,
+.main h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.content > p,
+.main > p {
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    font-size: 14px;
+}
+
+/* ====================================
+   METRIC CARDS
+==================================== */
+.cards,
+.metric-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
     margin-top: 30px;
 }
 
-.card {
-    background: #1e1e2f;
-    padding: 25px;
+.card,
+.metric-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
-    width: 200px;
-    text-align: center;
+    padding: 25px;
+    transition: all 0.3s ease;
 }
 
-
-.book-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.book-table th,
-.book-table td {
-    padding: 12px;
-    border-bottom: 1px solid #333;
-    text-align: left;
-}
-
-.book-table th {
-    background: #0ae064;
-    color: #000;
-}
-
-.book-table tr:hover {
-    background: #222;
-}
-body {
-    margin: 0;
-    font-family: Inter, sans-serif;
-    background: #121212;
-    color: #e0e0e0;
+.metric-card {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-
-/* Sidebar */
-.sidebar {
-    width: 240px;
-    background: #1e1e2f;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-.sidebar h3 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #0ae064;
-}
-
-.sidebar a {
-    display: block;
-    padding: 12px;
-    margin-bottom: 10px;
-    color: #ccc;
-    text-decoration: none;
-    border-radius: 8px;
-}
-
-.sidebar a:hover {
-    background: #0ae064;
-    color: #000;
-}
-
-/* Main Content */
-.main {
+/* Metric Card Info */
+.metric-info {
     flex: 1;
-    padding: 40px;
 }
-   .menu li a.active {
-            background-color: #0ae064;
-            color: white;
-            border-radius: 5px;
-        }
 
-        .menu li a:hover {
-            background-color:#0ae064;
-            color: white;
-            border-radius: 5px;
-        }
-        /* =========================
-   WHITE TABLE STYLE
-   ========================= */
+.metric-info h3 {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 10px;
+}
 
-.book-table {
+.metric-info .metric-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.metric-info .metric-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* Metric Icons */
+.metric-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+}
+
+/* Icon Color Variations */
+.metric-card.blue .metric-icon {
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+}
+
+.metric-card.green .metric-icon {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+}
+
+.metric-card.purple .metric-icon {
+    background: rgba(168, 85, 247, 0.15);
+    color: #a855f7;
+}
+
+.metric-card.red .metric-icon {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+.metric-card.orange .metric-icon {
+    background: rgba(249, 115, 22, 0.15);
+    color: #f97316;
+}
+
+.metric-card.yellow .metric-icon {
+    background: rgba(234, 179, 8, 0.15);
+    color: #eab308;
+}
+
+/* ====================================
+   BUTTONS
+==================================== */
+.btn {
+    display: inline-block;
+    padding: 12px 20px;
+    background: var(--green);
+    color: #000;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.btn:hover {
+    background: var(--green-hover);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* ====================================
+   TABLES - UNIFIED STYLE
+==================================== */
+.book-table,
+.librarian-table,
+.activity-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
@@ -169,79 +261,338 @@ body {
     color: #000;
     border-radius: 10px;
     overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.book-table th {
-    background: #0ae064;
+/* Dark Theme Activity Table */
+.activity-table {
+    background: transparent;
+    color: var(--text-primary);
+    box-shadow: none;
+}
+
+/* Table Headers */
+.book-table th,
+.librarian-table th {
+    background: var(--green);
     color: #000;
     padding: 14px;
     text-align: left;
     font-weight: 600;
+    font-size: 14px;
 }
 
-.book-table td {
+.activity-table thead {
+    background: var(--border-color);
+}
+
+.activity-table th {
+    padding: 15px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 2px solid #3a3f4e;
+}
+
+/* Table Rows */
+.book-table td,
+.librarian-table td {
     padding: 14px;
     border-bottom: 1px solid #ddd;
+    font-size: 14px;
 }
 
-.book-table tr:nth-child(even) {
+.activity-table td {
+    padding: 15px;
+    color: #e0e0e0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 14px;
+}
+
+/* Table Row Styles */
+.book-table tr:nth-child(even),
+.librarian-table tr:nth-child(even) {
     background: #f9f9f9;
 }
 
-.book-table tr:hover {
+.book-table tr:hover,
+.librarian-table tr:hover {
     background: #e6ffe9;
 }
-   /* -------------------------
-           WHITE TABLE STYLE
-           ------------------------- */
-        .librarian-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background: #ffffff;
-            color: #000;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+.activity-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.activity-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Table Wrapper */
+.table-wrapper {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+/* ====================================
+   RECENT ACTIVITY SECTION
+==================================== */
+.recent-activity {
+    margin-top: 50px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.recent-activity h2 {
+    font-size: 20px;
+    color: var(--text-primary);
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.no-activity {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 40px;
+    font-size: 15px;
+}
+
+/* ====================================
+   STATUS BADGES
+==================================== */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-badge.issued {
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+}
+
+.status-badge.returned {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+}
+
+.status-badge.overdue {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+.status-badge.approved {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+}
+
+.status-badge.pending {
+    background: rgba(234, 179, 8, 0.15);
+    color: #eab308;
+}
+
+/* ====================================
+   FILTER BUTTONS
+==================================== */
+.filter-buttons {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-buttons .btn {
+    margin-bottom: 0;
+    padding: 8px 16px;
+    font-size: 13px;
+}
+
+/* ====================================
+   FORM STYLES
+==================================== */
+.form-box {
+    max-width: 600px;
+    background: #ffffff;
+    color: #000;
+    padding: 30px;
+    border-radius: 12px;
+    margin-top: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-box input,
+.form-box select,
+.form-box textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.form-box input:focus,
+.form-box select:focus,
+.form-box textarea:focus {
+    outline: none;
+    border-color: var(--green);
+}
+
+.form-box label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-box button {
+    padding: 12px 20px;
+    background: var(--green);
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #000;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-box button:hover {
+    background: var(--green-hover);
+    color: #fff;
+}
+
+.form-box a {
+    margin-left: 10px;
+    text-decoration: none;
+    color: #dc3545;
+    font-weight: 500;
+}
+
+/* ====================================
+   Reports STYLES
+==================================== */
+ .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
         }
 
-        .librarian-table th {
-            background: #0ae064;
-            color: #000;
-            padding: 14px;
-            text-align: left;
+        .report-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .report-section h3 {
+            font-size: 18px;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .stat-value {
+            color: var(--text-primary);
             font-weight: 600;
+            font-size: 16px;
         }
 
-        .librarian-table td {
-            padding: 14px;
-            border-bottom: 1px solid #ddd;
+        .stat-value.green {
+            color: #22c55e;
         }
 
-        .librarian-table tr:nth-child(even) {
-            background: #f9f9f9;
+        .stat-value.red {
+            color: #ef4444;
         }
 
-        .librarian-table tr:hover {
-            background: #e6ffe9;
+        .stat-value.yellow {
+            color: #eab308;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 10px 15px;
-            background: #0ae064;
-            color: #000;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-bottom: 15px;
+        .stat-value.blue {
+            color: #3b82f6;
         }
 
-        .btn:hover {
-            background: #08c050;
-            color: #fff;
+        .chart-container {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
         }
 
-        /* Make table scrollable on small screens */
-        .table-wrapper {
-            overflow-x: auto;
+        .chart-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .chart-label {
+            width: 150px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chart-bar-bg {
+            flex: 1;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            margin: 0 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), #06c456);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .chart-value {
+            min-width: 40px;
+            text-align: right;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .no-data {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 20px;
+            font-size: 14px;
         }
