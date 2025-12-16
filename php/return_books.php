@@ -186,11 +186,11 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
                 <li><a href="manage_member.php">Manage Members</a></li>
                 <?php else: ?>
                     <li><a href="../dashboard/librarian_dashboard.php">Dashboard</a></li>
-                    <li><a href="#">Manage Books</a></li>
-                    <li><a href="#">Issue Books</a></li>
+                    <li><a href="manage_books.php">Manage Books</a></li>
+                    <li><a href="issue_books.php">Issue Books</a></li>
                 <?php endif; ?>
                 <li><a href="return_books.php" class="active">Return Books</a></li>
-                <li><a href="view_reports.php">View Reports</a></li>
+                <li><a href="view_members.php">View Members</a></li>
             <li><a href="profile.php">Profile</a></li>
             <li class="logout"><a href="logout.php">Logout</a></li>
         </ul>
