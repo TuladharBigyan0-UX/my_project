@@ -112,7 +112,7 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
             <li><a href="../php/issue_books.php">Issue Books</a></li>
             <li><a href="../php/return_books.php">Return Books</a></li>
             <li><a href="../php/view_members.php">View Members</a></li>
-            <li><a href="#">Profile</a></li>
+            <li><a href="../php/profile_librarian.php">Profile</a></li>
             <li class="logout"><a href="../php/logout.php">Logout</a></li>
         </ul>
     </aside>

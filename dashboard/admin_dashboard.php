@@ -95,8 +95,8 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
             <li><a href="admin_dashboard.php" class="active">Dashboard</a></li>
             <li><a href="../php/manage_librarian.php">Manage Librarians</a></li>
             <li><a href="../php/manage_member.php">Manage Members</a></li>
-            <li><a href="../php/return_books.php">Return Books</a></li>
             <li><a href="../php/view_reports.php">View Reports</a></li>
+            <li><a href="../php/return_books.php">Return Books</a></li>
             <li><a href="../php/profile.php">Profile</a></li>
             <li class="logout"><a href="../php/logout.php">Logout</a></li>
         </ul>
@@ -197,7 +197,7 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
                             ?>
                             <tr>
                                 <td><?= htmlspecialchars($activity['book_title']); ?></td>
-                                <td><?= htmlspecialchars($activity['student_name']); ?></td>
+                                <td><?= htmlspecialchars($activity['member_name']); ?></td>
                                 <td><?= date('M d, Y', strtotime($activity['issue_date'])); ?></td>
                                 <td><?= date('M d, Y', strtotime($activity['due_date'])); ?></td>
                                 <td>

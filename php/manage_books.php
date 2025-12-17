@@ -363,7 +363,7 @@ while ($row = $categoriesResult->fetch_assoc()) {
                 <li><a href="return_books.php">Return Books</a></li>
                 <li><a href="view_members.php">View Members</a></li>
             <?php endif; ?>
-            <li><a href="profile.php">Profile</a></li>
+            <li><a href="profile_librarian.php">Profile</a></li>
             <li class="logout"><a href="logout.php">Logout</a></li>
         </ul>
     </aside>
