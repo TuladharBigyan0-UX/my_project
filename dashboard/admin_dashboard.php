@@ -93,12 +93,12 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
 
         <ul class="menu">
             <li><a href="admin_dashboard.php" class="active">Dashboard</a></li>
-            <li><a href="../php/manage_librarian.php">Manage Librarians</a></li>
-            <li><a href="../php/manage_member.php">Manage Members</a></li>
-            <li><a href="../php/view_reports.php">View Reports</a></li>
+            <li><a href="../admin.php/manage_librarian.php">Manage Librarians</a></li>
+            <li><a href="../admin.php/manage_member.php">Manage Members</a></li>
+            <li><a href="../admin.php/view_reports.php">View Reports</a></li>
             <li><a href="../php/return_books.php">Return Books</a></li>
-            <li><a href="../php/profile.php">Profile</a></li>
-            <li class="logout"><a href="../php/logout.php">Logout</a></li>
+            <li><a href="../admin.php/profile.php">Profile</a></li>
+            <li class="logout"><a href="../admin.php/logout.php">Logout</a></li>
         </ul>
     </aside>
 
@@ -216,6 +216,6 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
 
     </main>
 </div>
-
+<script src="../js/mobile_menu.js"></script>
 </body>
 </html>

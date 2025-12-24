@@ -175,15 +175,221 @@ body {
     color: #e0e0e0;
 }
 
-/* ==========================
-   Responsive adjustments
-========================== */
-@media (max-width: 480px) {
+/* ===========================
+   RESPONSIVE SIGNUP PAGE
+=========================== */
+
+/* Tablet (Below 768px) */
+@media (max-width: 768px) {
+    body {
+        padding-top: 80px;
+    }
+
     .signup-container {
-        padding: 30px 20px;
+        width: 100%;
+        max-width: 100%;
+        padding: 30px 25px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+
+    .icon img {
+        height: 70px !important;
+    }
+
+    .signup-container h2 {
+        font-size: 22px;
+    }
+
+    .signup-container p {
+        font-size: 14px;
+        margin-bottom: 25px;
+    }
+
+    .form-group label {
+        font-size: 0.85rem;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 11px;
+        font-size: 0.95rem;
+        border-radius: 6px;
     }
 
     .form-row {
         flex-direction: column;
+        gap: 0;
+    }
+
+    .form-row .form-group {
+        width: 100%;
+    }
+
+    .password-wrapper {
+        flex-wrap: wrap;
+    }
+
+    .toggle-btn {
+        font-size: 11px;
+    }
+
+    .submit-btn {
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+
+    .signin-link {
+        font-size: 14px;
+        padding: 15px 0;
+    }
+}
+
+/* Small Mobile (Below 480px) */
+@media (max-width: 480px) {
+    body {
+        padding-top: 70px;
+    }
+
+    .signup-container {
+        padding: 25px 20px;
+        border-radius: 8px;
+    }
+
+    .icon {
+        margin-bottom: 15px;
+    }
+
+    .icon img {
+        height: 60px !important;
+    }
+
+    .signup-container h2 {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .signup-container p {
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-group label {
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 10px;
+        font-size: 16px; /* Prevents zoom on iOS */
+        border-radius: 5px;
+    }
+
+    .password-wrapper {
+        gap: 5px;
+    }
+
+    .toggle-btn {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+
+    .submit-btn {
+        padding: 11px;
+        margin-top: 15px;
+        font-size: 15px;
+    }
+
+    .signin-link {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+        font-size: 13px;
+    }
+
+    .back-btn {
+        top: 15px;
+        left: 15px;
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    small {
+        font-size: 11px !important;
+    }
+}
+
+/* Extra Small (Below 360px) */
+@media (max-width: 360px) {
+    .signup-container {
+        padding: 20px 15px;
+    }
+
+    .signup-container h2 {
+        font-size: 18px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 9px;
+    }
+
+    .submit-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+/* ===========================
+   LANDSCAPE ORIENTATION FIX
+=========================== */
+@media (max-height: 500px) and (orientation: landscape) {
+    body {
+        padding: 10px;
+    }
+
+    .login-card,
+    .signup-container {
+        margin: 10px auto;
+    }
+
+    .logo,
+    .icon {
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        margin-bottom: 5px;
+    }
+
+    .subtitle,
+    .signup-container p {
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    input,
+    select {
+        padding: 8px !important;
+    }
+
+    .btn,
+    .submit-btn {
+        padding: 8px !important;
+        margin-top: 10px !important;
+    }
+
+    .signup-link,
+    .signin-link {
+        padding: 10px 0 !important;
     }
 }
