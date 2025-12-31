@@ -108,11 +108,11 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
 
         <ul class="menu">
             <li><a href="librarian_dashboard.php" class="active">Dashboard</a></li>
-            <li><a href="../librarian.php/manage_books.php">Manage Books</a></li>
-            <li><a href="../librarian.php/issue_books.php">Issue Books</a></li>
+            <li><a href="../librarian/manage_books.php">Manage Books</a></li>
+            <li><a href="../librarian/issue_books.php">Issue Books</a></li>
             <li><a href="../php/return_books.php">Return Books</a></li>
-            <li><a href="../librarian.php/view_members.php">View Members</a></li>
-            <li><a href="../librarian.php/profile_librarian.php">Profile</a></li>
+            <li><a href="../php/view_members.php">View Members</a></li>
+            <li><a href="../librarian/profile_librarian.php">Profile</a></li>
             <li class="logout"><a href="../php/logout.php">Logout</a></li>
         </ul>
     </aside>

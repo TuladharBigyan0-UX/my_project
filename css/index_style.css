@@ -309,30 +309,22 @@ nav ul li a:hover {
 /* ===========================
    Contact Section
 ============================ */
-.container-contact{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
-    height: auto;
-    padding: 20px;
-}
-
 .contact {
     background-color: #121212;
     padding: 80px 20px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 50px;
+    justify-content: center;
+    align-items: center;
     color: #e0e0e0;
-    flex-wrap: wrap;
     width: 100%;
+    min-height: 80vh;
+    box-sizing: border-box;
 }
 
 .contact-info {
-    flex: 1 1 350px;
+    flex: 1;
+    text-align: center;
+    max-width: 600px;
 }
 
 .contact-info h2 {
@@ -342,10 +334,10 @@ nav ul li a:hover {
 }
 
 .contact-info p {
-    margin-bottom: 30px;
+    margin: 0 auto30px;
     line-height: 1.6;
     color: #cfcfcf;
-    width: 80%;
+    max-width: 100%;
 }
 
 .contact-info ul {
@@ -356,74 +348,9 @@ nav ul li a:hover {
 .contact-info ul li {
     margin-bottom: 15px;
     font-size: 1.1rem;
+    text-align: center;
 }
 
-.contact-form {
-    flex: 1 1 400px;
-    background: #1e1e1e;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-    max-width: 500px;
-}
-
-.contact-form h3 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #4CAF50;
-}
-
-.contact-form .form-group {
-    margin-bottom: 15px;
-}
-
-.contact-form label {
-    display: block;
-    margin-bottom: 5px;
-    color: #cfcfcf;
-}
-
-.contact-form input,
-.contact-form textarea {
-    width: 100%;
-    padding: 12px;
-    border-radius: 5px;
-    border: 1px solid #444;
-    background: #1e1e1e;
-    color: #e0e0e0;
-    outline: none;
-    transition: border 0.3s, box-shadow 0.3s;
-}
-
-.contact-form input::placeholder,
-.contact-form textarea::placeholder {
-    color: #aaa;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
-}
-
-.contact-form textarea {
-    resize: vertical;
-    min-height: 120px;
-}
-
-.contact-form .btn-send {
-    background-color: #4CAF50;
-    color: #fff;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.contact-form .btn-send:hover {
-    background-color: #45a049;
-}
 
 /* ===========================
    Footer Section

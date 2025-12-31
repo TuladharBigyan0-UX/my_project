@@ -1,12 +1,12 @@
 <?php
 session_start();
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'member') {
-    header("Location: login.php");
+    header("Location: ../php/login.php");
     exit();
 }
 
 $user = $_SESSION['user'];
-include("connection.php");
+include("../php/connection.php");
 
 $userId = $user['id'];
 $issueHistory = [];
@@ -198,7 +198,7 @@ foreach ($issueHistory as $issue) {
             <li><a href="browse_books.php">Browse Books</a></li>
             <li><a href="issue_history.php" class="active">Issue History</a></li>
             <li><a href="profile_member.php">Profile</a></li>
-            <li class="logout"><a href="logout.php">Logout</a></li>
+            <li class="logout"><a href="../php/logout.php">Logout</a></li>
         </ul>
     </aside>
 

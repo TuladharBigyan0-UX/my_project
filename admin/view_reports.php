@@ -1,14 +1,14 @@
 <?php
 session_start();
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-    header("Location: login.php");
+    header("Location: ../php/login.php");
     exit();
 }
 
 $user = $_SESSION['user'];
 
 // Include database connection
-include("connection.php");
+include("../php/connection.php");
 
 // Initialize variables
 $totalBooks = 0;
@@ -151,7 +151,148 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
     <title>View Reports - Admin Dashboard</title>
     <link rel="stylesheet" href="../css/dashboard.css">
     <style>
-       
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .report-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .report-section h3 {
+            font-size: 18px;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .stat-value {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .stat-value.green {
+            color: #22c55e;
+        }
+
+        .stat-value.red {
+            color: #ef4444;
+        }
+
+        .stat-value.yellow {
+            color: #eab308;
+        }
+
+        .stat-value.blue {
+            color: #3b82f6;
+        }
+
+        .chart-container {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+
+        .chart-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .chart-label {
+            width: 150px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chart-bar-bg {
+            flex: 1;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            margin: 0 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), #06c456);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .chart-value {
+            min-width: 40px;
+            text-align: right;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn:hover {
+            background: var(--green);
+            color: #000;
+            border-color: var(--green);
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .no-data {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 20px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -169,9 +310,11 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
             <li><a href="manage_librarian.php">Manage Librarians</a></li>
             <li><a href="manage_member.php">Manage Members</a></li>
             <li><a href="view_reports.php" class="active">View Reports</a></li>
-            <li><a href="return_books.php">Return Books</a></li>
+            <li><a href="../php/view_members.php">View Members</a></li>
+            <li><a href="../php/issue_books.php">Issue Books</a></li>
+            <li><a href="../php/return_books.php">Return Books</a></li>
             <li><a href="profile.php">Profile</a></li>
-            <li class="logout"><a href="logout.php">Logout</a></li>
+            <li class="logout"><a href="../php/logout.php">Logout</a></li>
         </ul>
     </aside>
 

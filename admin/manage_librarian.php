@@ -3,11 +3,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-include("connection.php");
+include("../php/connection.php");
 
 // Admin protection
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-    header("Location: login.php");
+    header("Location: ../php/login.php");
     exit();
 }
 
@@ -55,7 +55,9 @@ $result = $conn->query("SELECT * FROM librarians ORDER BY id DESC");
             <li><a href="manage_librarian.php" class="active">Manage Librarians</a></li>
             <li><a href="manage_member.php">Manage Members</a></li>
             <li><a href="view_reports.php">View Reports</a></li>
-            <li><a href="return_books.php">Return Books</a></li>
+            <li><a href="../php/view_members.php">View Members</a></li>
+            <li><a href="../php/issue_books.php">Issue Books</a></li>
+            <li><a href="../php/return_books.php">Return Books</a></li>
             <li><a href="profile.php">Profile</a></li>
             <li class="logout"><a href="../php/logout.php">Logout</a></li>
         </ul>

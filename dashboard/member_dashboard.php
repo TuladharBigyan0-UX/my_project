@@ -98,10 +98,10 @@ if ($checkBooks && $checkBooks->num_rows > 0) {
 
         <ul class="menu">
             <li><a href="member_dashboard.php" class="active">Dashboard</a></li>
-            <li><a href="../member.php/my_books.php">My Books</a></li>
-            <li><a href="../member.php/browse_books.php">Browse Books</a></li>
-            <li><a href="../member.php/issue_history.php">Issue History</a></li>
-            <li><a href="../member.php/profile_member.php">Profile</a></li>
+            <li><a href="../member/my_books.php">My Books</a></li>
+            <li><a href="../member/browse_books.php">Browse Books</a></li>
+            <li><a href="../member/issue_history.php">Issue History</a></li>
+            <li><a href="../member/profile_member.php">Profile</a></li>
             <li class="logout"><a href="../php/logout.php">Logout</a></li>
         </ul>
     </aside>

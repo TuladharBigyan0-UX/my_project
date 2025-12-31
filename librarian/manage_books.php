@@ -1,14 +1,14 @@
 <?php
 session_start();
 if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] !== 'librarian' && $_SESSION['user']['role'] !== 'admin')) {
-    header("Location: login.php");
+    header("Location: ../php/login.php");
     exit();
 }
 
 $user = $_SESSION['user'];
 
 // Include database connection
-include("connection.php");
+include("../php/connection.php");
 
 $errors = [];
 $bookId = 0;
@@ -359,12 +359,12 @@ while ($row = $categoriesResult->fetch_assoc()) {
             <?php if ($user['role'] === 'librarian'): ?>
                 <li><a href="../dashboard/librarian_dashboard.php">Dashboard</a></li>
                 <li><a href="manage_books.php" class="active">Manage Books</a></li>
-                <li><a href="issue_books.php">Issue Books</a></li>
-                <li><a href="return_books.php">Return Books</a></li>
+                <li><a href="../php/issue_books.php">Issue Books</a></li>
+                <li><a href="../php/return_books.php">Return Books</a></li>
                 <li><a href="view_members.php">View Members</a></li>
             <?php endif; ?>
             <li><a href="profile_librarian.php">Profile</a></li>
-            <li class="logout"><a href="logout.php">Logout</a></li>
+            <li class="logout"><a href="../php/logout.php">Logout</a></li>
         </ul>
     </aside>
 

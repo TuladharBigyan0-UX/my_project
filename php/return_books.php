@@ -166,7 +166,257 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     <title>Return Books</title>
     <link rel="stylesheet" href="../css/dashboard.css">
     <style>
-        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            max-width: 400px;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--green);
+        }
+
+        .search-btn {
+            padding: 12px 24px;
+            background: var(--green);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: var(--green-hover);
+            color: #fff;
+        }
+
+        .return-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .return-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .return-table thead {
+            background: var(--border-color);
+        }
+
+        .return-table th {
+            padding: 15px;
+            text-align: left;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 14px;
+            border-bottom: 2px solid #3a3f4e;
+        }
+
+        .return-table td {
+            padding: 15px;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        .return-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .return-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .overdue {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .on-time {
+            color: #22c55e;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 5px;
+        }
+
+        .btn-return {
+            background: #22c55e;
+            color: #000;
+        }
+
+        .btn-return:hover {
+            background: #16a34a;
+            color: #fff;
+        }
+
+        .btn-pay {
+            background: #3b82f6;
+            color: #fff;
+        }
+
+        .btn-pay:hover {
+            background: #2563eb;
+        }
+
+        .btn-paid {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            cursor: default;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-card.overdue-card .number {
+            color: #ef4444;
+        }
+
+        .no-issues {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-muted);
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .no-issues h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: var(--text-primary);
+            font-size: 24px;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn-cancel {
+            padding: 10px 20px;
+            background: var(--border-color);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn-confirm {
+            padding: 10px 20px;
+            background: var(--green);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -182,20 +432,21 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
         <ul class="menu">
     <?php if ($user['role'] === 'admin'): ?>
     <li><a href="../dashboard/admin_dashboard.php">Dashboard</a></li>
-    <li><a href="manage_librarian.php">Manage Librarians</a></li>
-    <li><a href="manage_member.php">Manage Members</a></li>
-    <li><a href="view_reports.php">View Reports</a></li>
+    <li><a href="../admin/manage_librarian.php">Manage Librarians</a></li>
+    <li><a href="../admin/manage_member.php">Manage Members</a></li>
+    <li><a href="../admin/view_reports.php">View Reports</a></li>
+     <li><a href="view_members.php">View Members</a></li>
+    <li><a href="issue_books.php">Issue Books</a></li>
     <li><a href="return_books.php" class="active">Return Books</a></li>
-    <li><a href="profile.php">Profile</a></li>
+    <li><a href="../admin/profile.php">Profile</a></li>
 
     <?php else: ?>
     <li><a href="../dashboard/librarian_dashboard.php">Dashboard</a></li>
-    <li><a href="manage_books.php">Manage Books</a></li>
+    <li><a href="../librarian/manage_books.php">Manage Books</a></li>
     <li><a href="issue_books.php">Issue Books</a></li>
     <li><a href="return_books.php" class="active">Return Books</a></li>
     <li><a href="view_members.php">View Members</a></li>
-    <li><a href="profile_librarian.php">Profile</a></li>
-
+    <li><a href="../librarian/profile_librarian.php">Profile</a></li>
     <?php endif; ?>
 
     <li class="logout"><a href="logout.php">Logout</a></li>

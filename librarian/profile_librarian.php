@@ -1,14 +1,14 @@
 <?php
 session_start();
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'librarian') {
-    header("Location: login.php");
+    header("Location: ../php/login.php");
     exit();
 }
 
 $user = $_SESSION['user'];
 
 // Include database connection
-include("connection.php");
+include("../php/connection.php");
 
 $errors = [];
 $success = '';
@@ -467,11 +467,11 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
         <ul class="menu">
             <li><a href="../dashboard/librarian_dashboard.php">Dashboard</a></li>
             <li><a href="manage_books.php">Manage Books</a></li>
-            <li><a href="issue_books.php">Issue Books</a></li>
-            <li><a href="return_books.php">Return Books</a></li>
+            <li><a href="../php/issue_books.php">Issue Books</a></li>
+            <li><a href="../php/return_books.php">Return Books</a></li>
             <li><a href="view_members.php">View Members</a></li>
             <li><a href="profile_librarian.php" class="active">Profile</a></li>
-            <li class="logout"><a href="logout.php">Logout</a></li>
+            <li class="logout"><a href="../php/logout.php">Logout</a></li>
         </ul>
     </aside>
 
