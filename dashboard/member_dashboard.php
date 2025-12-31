@@ -223,7 +223,7 @@ if ($checkBooks && $checkBooks->num_rows > 0) {
             <?php else: ?>
                 <div class="no-activity">
                     <p>📚 You don't have any books borrowed currently.</p>
-                    <a href="../php/browse_books.php" class="btn" style="margin-top: 15px; display: inline-block;">Browse Books</a>
+                    <a href="../member/browse_books.php" class="btn" style="margin-top: 15px; display: inline-block;">Browse Books</a>
                 </div>
             <?php endif; ?>
         </div>
