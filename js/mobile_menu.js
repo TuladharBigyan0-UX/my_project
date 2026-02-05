@@ -10,26 +10,18 @@
 (function() {
     'use strict';
 
-    // ============================================
-    // CONFIGURATION
-    // ============================================
     const CONFIG = {
         breakpoints: {
             mobile: 480,
             tablet: 768,
             desktop: 1024
         },
-        animationDuration: 300,
         debounceDelay: 150
     };
 
-    // ============================================
-    // UTILITY FUNCTIONS
-    // ============================================
-    
-    /**
-     * Debounce function to limit function calls
-     */
+ let bodyScrollLocks = 0;
+    let savedScrollY = 0;
+
     function debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -42,9 +34,6 @@
         };
     }
 
-    /**
-     * Get current viewport width
-     */
     function getViewportWidth() {
         return Math.max(
             document.documentElement.clientWidth || 0,
@@ -52,31 +41,32 @@
         );
     }
 
-    /**
-     * Check if device is mobile
-     */
     function isMobile() {
         return getViewportWidth() <= CONFIG.breakpoints.tablet;
     }
 
-    /**
-     * Prevent body scroll
-     */
-    function preventBodyScroll(prevent) {
-        if (prevent) {
-            document.body.style.overflow = 'hidden';
-            document.body.style.position = 'fixed';
-            document.body.style.width = '100%';
-        } else {
-            document.body.style.overflow = '';
+    function setBodyScrollLock(shouldLock) {
+        if (shouldLock) {
+            bodyScrollLocks += 1;
+            if (bodyScrollLocks === 1) {
+                savedScrollY = window.scrollY || window.pageYOffset;
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${savedScrollY}px`;
+                document.body.style.width = '100%';
+                document.body.style.overflow = 'hidden';
+            }
+            return;
+        }
+
+        bodyScrollLocks = Math.max(0, bodyScrollLocks - 1);
+        if (bodyScrollLocks === 0) {
             document.body.style.position = '';
+            document.body.style.top = '';
             document.body.style.width = '';
+            document.body.style.overflow = '';
+            window.scrollTo(0, savedScrollY);
         }
     }
-
-    // ============================================
-    // DASHBOARD SIDEBAR MENU
-    // ============================================
     
     class DashboardMenu {
         constructor() {
@@ -97,7 +87,6 @@
         }
 
         createElements() {
-            // Create overlay if it doesn't exist
             if (!document.querySelector('.sidebar-overlay')) {
                 this.overlay = document.createElement('div');
                 this.overlay.className = 'sidebar-overlay';
@@ -106,27 +95,25 @@
                 this.overlay = document.querySelector('.sidebar-overlay');
             }
 
-            // Create toggle button if it doesn't exist
-            if (!document.querySelector('.menu-toggle')) {
+            const existingToggle = document.querySelector('.menu-toggle[data-menu="dashboard"]');
+            if (!existingToggle) {
                 this.toggleButton = document.createElement('button');
                 this.toggleButton.className = 'menu-toggle';
+                this.toggleButton.dataset.menu = 'dashboard';
                 this.toggleButton.innerHTML = '☰';
                 this.toggleButton.setAttribute('aria-label', 'Toggle Menu');
                 this.toggleButton.setAttribute('aria-expanded', 'false');
                 document.body.appendChild(this.toggleButton);
             } else {
-                this.toggleButton = document.querySelector('.menu-toggle');
+                this.toggleButton = existingToggle;
             }
         }
 
         attachEventListeners() {
-            // Toggle button click
             this.toggleButton.addEventListener('click', () => this.toggle());
 
-            // Overlay click
             this.overlay.addEventListener('click', () => this.close());
 
-            // Menu link clicks
             const menuLinks = this.sidebar.querySelectorAll('.menu li a');
             menuLinks.forEach(link => {
                 link.addEventListener('click', () => {
@@ -136,14 +123,12 @@
                 });
             });
 
-            // Keyboard navigation
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && this.isOpen) {
                     this.close();
                 }
             });
 
-            // Window resize
             window.addEventListener('resize', debounce(() => {
                 this.handleResize();
             }, CONFIG.debounceDelay));
@@ -176,20 +161,15 @@
             this.toggleButton.setAttribute('aria-expanded', 'false');
             this.isOpen = false;
             
-            preventBodyScroll(false);
+           setBodyScrollLock(false);
         }
 
         handleResize() {
-            // Close menu on resize to desktop
             if (!isMobile() && this.isOpen) {
                 this.close();
             }
         }
     }
-
-    // ============================================
-    // INDEX PAGE HEADER MENU
-    // ============================================
     
     class IndexMenu {
         constructor() {
@@ -210,12 +190,11 @@
         }
 
         createToggleButton() {
-            // Check if toggle button already exists
-            let existingToggle = this.header.querySelector('.menu-toggle');
-            
+         const existingToggle = this.header.querySelector('.menu-toggle[data-menu="index"]');
             if (!existingToggle) {
                 this.toggleButton = document.createElement('button');
                 this.toggleButton.className = 'menu-toggle';
+                this.toggleButton.dataset.menu = 'index';
                 this.toggleButton.setAttribute('aria-label', 'Toggle Navigation');
                 this.toggleButton.setAttribute('aria-expanded', 'false');
                 this.toggleButton.innerHTML = `
@@ -223,8 +202,7 @@
                     <span></span>
                     <span></span>
                 `;
-                
-                // Insert before nav
+          
                 this.nav.parentNode.insertBefore(this.toggleButton, this.nav);
             } else {
                 this.toggleButton = existingToggle;
@@ -232,10 +210,8 @@
         }
 
         attachEventListeners() {
-            // Toggle button click
             this.toggleButton.addEventListener('click', () => this.toggle());
 
-            // Navigation link clicks
             const navLinks = this.nav.querySelectorAll('ul li a');
             navLinks.forEach(link => {
                 link.addEventListener('click', () => {
@@ -245,7 +221,6 @@
                 });
             });
 
-            // Click outside to close
             document.addEventListener('click', (e) => {
                 if (this.isOpen && 
                     !this.header.contains(e.target)) {
@@ -253,14 +228,12 @@
                 }
             });
 
-            // Keyboard navigation
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && this.isOpen) {
                     this.close();
                 }
             });
 
-            // Window resize
             window.addEventListener('resize', debounce(() => {
                 this.handleResize();
             }, CONFIG.debounceDelay));
@@ -280,7 +253,7 @@
             this.toggleButton.setAttribute('aria-expanded', 'true');
             this.isOpen = true;
             
-            // Animate hamburger
+       
             this.animateHamburger(true);
             
             if (isMobile()) {
@@ -293,11 +266,10 @@
             this.toggleButton.classList.remove('active');
             this.toggleButton.setAttribute('aria-expanded', 'false');
             this.isOpen = false;
-            
-            // Animate hamburger
+
             this.animateHamburger(false);
             
-            preventBodyScroll(false);
+           setBodyScrollLock(false);
         }
 
         animateHamburger(isOpen) {
@@ -343,7 +315,7 @@
 
         makeTableResponsive(table) {
             // Check if table is already wrapped
-            if (table.parentElement.classList.contains('table-wrapper')) {
+             if (table.parentElement && table.parentElement.classList.contains('table-wrapper')) {
                 return;
             }
 
@@ -363,15 +335,15 @@
             const indicator = document.createElement('div');
             indicator.className = 'table-scroll-indicator';
             indicator.innerHTML = '← Scroll to see more →';
-            indicator.style.cssText = `
-                text-align: center;
-                padding: 10px;
-                background: rgba(10, 224, 100, 0.1);
-                color: #0ae064;
-                font-size: 12px;
-                border-radius: 4px;
-                margin-bottom: 10px;
-            `;
+            indicator.style.cssText = [
+                'text-align: center;',
+                'padding: 10px;',
+                'background: rgba(10, 224, 100, 0.1);',
+                'color: #0ae064;',
+                'font-size: 12px;',
+                'border-radius: 4px;',
+                'margin-bottom: 10px;'
+            ].join(' ');
             wrapper.parentNode.insertBefore(indicator, wrapper);
 
             // Remove indicator when scrolled
@@ -515,8 +487,6 @@
         
         // Initialize orientation handler
         new OrientationHandler();
-
-        console.log('✅ Responsive menu system initialized');
     }
 
     // Start initialization
