@@ -51,6 +51,7 @@ if ($filter === 'pending') {
 <head>
     <title>Manage Members</title>
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     <style>
         .filter-buttons { margin-bottom: 15px; }
         .filter-buttons .btn { margin-right: 5px; text-decoration: none; padding: 5px 10px; border: 1px solid #333; border-radius: 4px; background: #0ae064; }
@@ -137,5 +138,6 @@ if ($filter === 'pending') {
 
 </div>
 
+<script src="../js/mobile_menu.js"></script>
 </body>
 </html>

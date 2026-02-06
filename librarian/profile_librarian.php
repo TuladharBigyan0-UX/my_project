@@ -177,6 +177,7 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Librarian Profile</title>
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     <style>
         .profile-container {
             display: grid;
@@ -666,6 +667,6 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
         event.target.classList.add('active');
     }
 </script>
-
+<script src="../js/mobile_menu.js"></script>
 </body>
 </html>

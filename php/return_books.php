@@ -165,6 +165,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Return Books</title>
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     <style>
         .search-box {
             display: flex;
@@ -613,6 +614,6 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
         <?php endif; ?>
     </main>
 </div>
-
+<script src="../js/mobile_menu.js"></script>
 </body>
 </html>

@@ -80,6 +80,7 @@ $canBorrowMore = $activeIssues < 3;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse Books</title>
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     <style>
         .search-filter-section {
             background: var(--card-bg);
@@ -424,6 +425,6 @@ $canBorrowMore = $activeIssues < 3;
 
     </main>
 </div>
-
+<script src="../js/mobile_menu.js"></script>
 </body>
 </html>

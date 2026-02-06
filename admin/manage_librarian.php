@@ -38,6 +38,7 @@ $result = $conn->query("SELECT * FROM librarians ORDER BY id DESC");
 <head>
     <title>Manage Librarians</title>
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
 </head>
 <body>
 
@@ -111,5 +112,6 @@ $result = $conn->query("SELECT * FROM librarians ORDER BY id DESC");
 
 </div>
 
+<script src="../js/mobile_menu.js"></script>
 </body>
 </html>

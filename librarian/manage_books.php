@@ -168,6 +168,7 @@ while ($row = $categoriesResult->fetch_assoc()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $bookId ? 'Edit' : 'Add'; ?> Book</title>
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     <style>
         .form-container {
             max-width: 800px;
@@ -467,5 +468,6 @@ while ($row = $categoriesResult->fetch_assoc()) {
     </main>
 </div>
 
+<script src="../js/mobile_menu.js"></script>
 </body>
 </html>

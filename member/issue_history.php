@@ -64,6 +64,7 @@ foreach ($issueHistory as $issue) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Issue History</title>
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     <style>
         .stats-row {
             display: grid;
@@ -338,6 +339,6 @@ function filterHistory(status) {
     });
 }
 </script>
-
+<script src="../js/mobile_menu.js"></script>
 </body>
 </html>

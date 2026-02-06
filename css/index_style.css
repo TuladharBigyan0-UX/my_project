@@ -132,36 +132,26 @@ nav ul li a:hover {
     background-color: #009624;
 }
 
-/* Mobile Menu Toggle
-.menu-toggle {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    gap: 5px;
-}
-
-.menu-toggle span {
-    width: 25px;
-    height: 3px;
-    background-color: #00c853;
-    border-radius: 3px;
-    transition: 0.3s;
-} */
 /* Mobile Menu Toggle */
 .menu-toggle {
     display: none;
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1001;
-    background: var(--green);
-    color: #000;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: 2px solid #00c853;
+    padding: 8px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 20px;
+    transition: 0.3s;
 }
+
+.menu-toggle span {
+    width: 24px;
+    height: 2px;
+    background-color: #00c853;
+    border-radius: 2px;
+    transition: 0.3s;
+} 
 
 /* ===========================
    Hero Section

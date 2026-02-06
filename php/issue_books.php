@@ -166,6 +166,7 @@ $availableBooks = $conn->query("SELECT COUNT(*) as count FROM books WHERE availa
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Issue Books</title>
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     <style>
         .issue-container {
             display: grid;
@@ -649,6 +650,6 @@ function setLoanDays(days) {
     updateDueDate();
 }
 </script>
-
+<script src="../js/mobile_menu.js"></script>
 </body>
 </html>

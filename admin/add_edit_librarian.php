@@ -126,6 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <title><?= $id ? 'Edit' : 'Add'; ?> Librarian</title>
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     <style>
         .form-box {
             max-width: 500px;
@@ -205,5 +206,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </div>
 
+<script src="../js/mobile_menu.js"></script>
 </body>
 </html>

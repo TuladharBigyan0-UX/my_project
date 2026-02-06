@@ -139,6 +139,7 @@ foreach ($members as $member) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Members</title>
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     <style>
         .stats-row {
             display: grid;
@@ -713,6 +714,6 @@ foreach ($members as $member) {
     </div>
 </div>
 <?php endif; ?>
-
+<script src="../js/mobile_menu.js"></script>
 </body>
 </html>

@@ -148,6 +148,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <script src="script.js"></script>
+    <script src="../js/mobile_menu.js"></script>
 </body>
-
 </html>
