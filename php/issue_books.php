@@ -443,7 +443,7 @@ $availableBooks = $conn->query("SELECT COUNT(*) as count FROM books WHERE availa
                 <li><a href="../librarian/manage_books.php">Manage Books</a></li>
                 <li><a href="issue_books.php" class="active">Issue Books</a></li>
                 <li><a href="return_books.php">Return Books</a></li>
-                <li><a href="../librarian/view_members.php">View Members</a></li>
+                <li><a href="view_members.php">View Members</a></li>
                 <li><a href="../librarian/profile_librarian.php">Profile</a></li>
             <?php else: ?>
                 <li><a href="../dashboard/admin_dashboard.php">Dashboard</a></li>
