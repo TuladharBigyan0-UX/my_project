@@ -1,3 +1,4 @@
+
 (function() {
     'use strict';
   
@@ -5,6 +6,10 @@
     
     const isMobile = () => window.innerWidth <= MOBILE_BREAKPOINT;
     
+    /**
+     * Dashboard Sidebar Menu Controller
+     * Handles sidebar navigation for admin, librarian, and member dashboards
+     */
     class DashboardMenu {
         constructor() {
             this.sidebar = document.querySelector('.sidebar');
@@ -51,11 +56,18 @@
         bindEvents() {
             this.toggleButton.addEventListener('click', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 this.toggle();
             });
             
-            this.overlay.addEventListener('click', () => this.close());
+            // Close menu when clicking overlay (not content)
+            this.overlay.addEventListener('click', (e) => {
+                if (e.target === this.overlay) {
+                    this.close();
+                }
+            });
 
+            // Close menu when clicking menu items
             this.sidebar.querySelectorAll('.menu li a').forEach((link) => {
                 link.addEventListener('click', () => {
                     if (isMobile()) {
@@ -64,6 +76,7 @@
                 });
             });
 
+            // Close menu with ESC key
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape' && this.isOpen) {
                     this.close();
@@ -84,7 +97,9 @@
             this.toggleButton.setAttribute('aria-expanded', 'true');
             this.isOpen = true;
             document.body.classList.add('menu-open');
-            document.body.style.overflow = 'hidden';
+            
+            // Don't prevent scrolling - let users interact with content
+            // document.body.style.overflow = 'hidden'; // REMOVED
         }
 
         close() {
@@ -111,6 +126,10 @@
         }
     }
     
+    /**
+     * Index Page Header Navigation Controller
+     * Handles responsive navigation for public-facing pages
+     */
     class IndexMenu {
         constructor() {
             this.header = document.querySelector('header');
@@ -135,8 +154,10 @@
                 button.setAttribute('aria-expanded', 'false');
                 button.innerHTML = '<span></span><span></span><span></span>';
                 
-                // Insert before nav element
-                this.header.querySelector('.header-container').appendChild(button);
+                const headerContainer = this.header.querySelector('.header-container');
+                if (headerContainer) {
+                    headerContainer.appendChild(button);
+                }
             }
             return button;
         }
@@ -156,6 +177,7 @@
                 });
             });
 
+            // Close when clicking outside header
             document.addEventListener('click', (event) => {
                 if (this.isOpen && !this.header.contains(event.target)) {
                     this.close();
@@ -199,11 +221,16 @@
         }
     }
 
+    /**
+     * Initialize both menu systems
+     * Safe to call on any page - will only initialize what's needed
+     */
     const init = () => {
         new DashboardMenu();
         new IndexMenu();
     };
     
+    // Auto-initialize when DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {

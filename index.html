@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library MS - Dark Theme</title>
     <link rel="stylesheet" href="../css/index_style.css">
-    <link rel="stylesheet" href="../css/responsive.css">
 </head>
 
 <body>
@@ -26,11 +25,19 @@
                     <li><a href="#features">Features</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    
+                    <!-- Auth buttons inside nav for mobile -->
+                    <li class="nav-auth-buttons">
+                        <a href="../php/login.php" class="btn-login-mobile">Login</a>
+                    </li>
+                    <li class="nav-auth-buttons">
+                        <a href="signup.html" class="btn-signup-mobile">Sign Up</a>
+                    </li>
                 </ul>
             </nav>
 
-            <!-- Login / Signup Buttons -->
-            <div class="auth-buttons">
+            <!-- Desktop Auth Buttons (hidden on mobile) -->
+            <div class="auth-buttons auth-buttons-desktop">
                 <a href="../php/login.php" class="btn-login">Login</a>
                 <a href="signup.html" class="btn-signup">Sign Up</a>
             </div>
@@ -120,7 +127,7 @@
                         reducing paperwork, and improving accuracy in library operations.</p>
                 </div>
                 <div class="about-card">
-                    <h3>🚀 Why It’s Helpful</h3>
+                    <h3>🚀 Why It's Helpful</h3>
                     <p>Students can quickly find books, librarians save time, and the system ensures
                         accurate records of borrowed and returned books.</p>
                 </div>
@@ -142,7 +149,7 @@
             <!-- Contact Info -->
             <div class="contact-info">
                 <h2>Contact Us</h2>
-                <p>We’d love to hear from you. Reach out for support, suggestions, or feedback about our Library MS.</p>
+                <p>We'd love to hear from you. Reach out for support, suggestions, or feedback about our Library MS.</p>
                 <ul>
                     <li>📧 email@example.com</li>
                     <li>📞 +977-123456789</li>
