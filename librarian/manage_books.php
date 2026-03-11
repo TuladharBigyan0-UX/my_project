@@ -357,7 +357,6 @@ while ($row = $categoriesResult->fetch_assoc()) {
         </div>
 
         <ul class="menu">
-            <?php if ($user['role'] === 'librarian'): ?>
                 <li><a href="../dashboard/librarian_dashboard.php">Dashboard</a></li>
                 <li><a href="list_book.php">Manage Books</a></li>
                 <li><a href="../php/issue_books.php">Issue Books</a></li>
@@ -365,7 +364,6 @@ while ($row = $categoriesResult->fetch_assoc()) {
                 <li><a href="../php/view_members.php">View Members</a></li>
                 <li><a href="profile_librarian.php">Profile</a></li>
                 <li class="logout"><a href="../php/logout.php">Logout</a></li>
-                <?php endif; ?>
             </ul>
     </aside>
 
