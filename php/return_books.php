@@ -444,14 +444,14 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 
     <?php else: ?>
     <li><a href="../dashboard/librarian_dashboard.php">Dashboard</a></li>
-    <li><a href="../librarian/list_books.php">Manage Books</a></li>
-    <li><a href="issue_books.php">Issue Books</a></li>
-    <li><a href="return_books.php" class="active">Return Books</a></li>
-    <li><a href="view_members.php">View Members</a></li>
+    <li><a href="../librarian/book_list.php">Manage Books</a></li>
+    <li><a href="../php/issue_books.php">Issue Books</a></li>
+    <li><a href="../php/return_books.php" class="active">Return Books</a></li>
+    <li><a href="../php/view_members.php">View Members</a></li>
     <li><a href="../librarian/profile_librarian.php">Profile</a></li>
     <?php endif; ?>
 
-    <li class="logout"><a href="logout.php">Logout</a></li>
+    <li class="logout"><a href="../php/logout.php">Logout</a></li>
         </ul>
     </aside>
 
