@@ -109,8 +109,8 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
 
         <ul class="menu">
             <li><a href="librarian_dashboard.php" class="active">Dashboard</a></li>
-            <li><a href="../librarian/list_book.php">Manage Books</a></li>
-            <li><a href="../librarian/issue_books.php">Issue Books</a></li>
+            <li><a href="../librarian/book_list.php">Manage Books</a></li>
+            <li><a href="../php/issue_books.php">Issue Books</a></li>
             <li><a href="../php/return_books.php">Return Books</a></li>
             <li><a href="../php/view_members.php">View Members</a></li>
             <li><a href="../librarian/profile_librarian.php">Profile</a></li>
