@@ -357,14 +357,26 @@ while ($row = $categoriesResult->fetch_assoc()) {
         </div>
 
         <ul class="menu">
+            <?php if ($user['role'] === 'librarian'): ?>
                 <li><a href="../dashboard/librarian_dashboard.php">Dashboard</a></li>
-                <li><a href="list_book.php">Manage Books</a></li>
+                <li><a href="list_book.php" class="active">Manage Books</a></li>
                 <li><a href="../php/issue_books.php">Issue Books</a></li>
                 <li><a href="../php/return_books.php">Return Books</a></li>
                 <li><a href="../php/view_members.php">View Members</a></li>
                 <li><a href="profile_librarian.php">Profile</a></li>
-                <li class="logout"><a href="../php/logout.php">Logout</a></li>
-            </ul>
+                <?php else: ?>
+                <li><a href="../dashboard/admin_dashboard.php">Dashboard</a></li>
+                <li><a href="../admin/manage_librarian.php">Manage Librarians</a></li>
+                <li><a href="../admin/manage_member.php">Manage Members</a></li>
+                <li><a href="../admin/view_reports.php">View Reports</a></li>
+                <li><a href="../php/view_members.php">View Members</a></li>
+                <li><a href="../librarian/book_list.php"class="active">Manage Books</a></li>
+                <li><a href="../php/issue_books.php">Issue Books</a></li>
+                <li><a href="../php/return_books.php">Return Books</a></li>
+                <li><a href="../admin/profile.php">Profile</a></li>
+                 <?php endif; ?>
+            <li class="logout"><a href="../php/logout.php">Logout</a></li>
+        </ul>
     </aside>
 
     <!-- Main Content -->
