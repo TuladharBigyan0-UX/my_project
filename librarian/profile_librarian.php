@@ -467,7 +467,7 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
 
         <ul class="menu">
             <li><a href="../dashboard/librarian_dashboard.php">Dashboard</a></li>
-            <li><a href="manage_books.php">Manage Books</a></li>
+            <li><a href="list_books.php">Manage Books</a></li>
             <li><a href="../php/issue_books.php">Issue Books</a></li>
             <li><a href="../php/return_books.php">Return Books</a></li>
             <li><a href="../php/view_members.php">View Members</a></li>

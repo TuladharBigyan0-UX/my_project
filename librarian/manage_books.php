@@ -359,7 +359,7 @@ while ($row = $categoriesResult->fetch_assoc()) {
         <ul class="menu">
             <?php if ($user['role'] === 'librarian'): ?>
                 <li><a href="../dashboard/librarian_dashboard.php">Dashboard</a></li>
-                <li><a href="manage_books.php" class="active">Manage Books</a></li>
+                <li><a href="list_book.php">Manage Books</a></li>
                 <li><a href="../php/issue_books.php">Issue Books</a></li>
                 <li><a href="../php/return_books.php">Return Books</a></li>
                 <li><a href="../php/view_members.php">View Members</a></li>

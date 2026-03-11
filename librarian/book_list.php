@@ -411,7 +411,7 @@ $availCopies  = $conn->query("SELECT SUM(available_copies) as c FROM books")->fe
 <div class="dashboard">
     <!-- Sidebar -->
     <aside class="sidebar">
-        <div class="profile-box">
+        <div class="profile-box"> 
             <h3><?= htmlspecialchars($user['fullname']); ?></h3>
             <p><?= ucfirst($user['role']); ?></p>
         </div>

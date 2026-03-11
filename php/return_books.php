@@ -436,14 +436,15 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     <li><a href="../admin/manage_librarian.php">Manage Librarians</a></li>
     <li><a href="../admin/manage_member.php">Manage Members</a></li>
     <li><a href="../admin/view_reports.php">View Reports</a></li>
-     <li><a href="view_members.php">View Members</a></li>
+    <li><a href="view_members.php">View Members</a></li>
+    <li><a href="../librarian/book_list.php">Manage Books</a></li>
     <li><a href="issue_books.php">Issue Books</a></li>
     <li><a href="return_books.php" class="active">Return Books</a></li>
     <li><a href="../admin/profile.php">Profile</a></li>
 
     <?php else: ?>
     <li><a href="../dashboard/librarian_dashboard.php">Dashboard</a></li>
-    <li><a href="../librarian/manage_books.php">Manage Books</a></li>
+    <li><a href="../librarian/list_books.php">Manage Books</a></li>
     <li><a href="issue_books.php">Issue Books</a></li>
     <li><a href="return_books.php" class="active">Return Books</a></li>
     <li><a href="view_members.php">View Members</a></li>
