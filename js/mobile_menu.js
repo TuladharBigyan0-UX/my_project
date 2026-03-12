@@ -1,4 +1,3 @@
-
 (function() {
     'use strict';
   
@@ -60,14 +59,12 @@
                 this.toggle();
             });
             
-            // Close menu when clicking overlay (not content)
             this.overlay.addEventListener('click', (e) => {
                 if (e.target === this.overlay) {
                     this.close();
                 }
             });
 
-            // Close menu when clicking menu items
             this.sidebar.querySelectorAll('.menu li a').forEach((link) => {
                 link.addEventListener('click', () => {
                     if (isMobile()) {
@@ -76,7 +73,6 @@
                 });
             });
 
-            // Close menu with ESC key
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape' && this.isOpen) {
                     this.close();
@@ -97,9 +93,6 @@
             this.toggleButton.setAttribute('aria-expanded', 'true');
             this.isOpen = true;
             document.body.classList.add('menu-open');
-            
-            // Don't prevent scrolling - let users interact with content
-            // document.body.style.overflow = 'hidden'; // REMOVED
         }
 
         close() {
@@ -152,10 +145,28 @@
                 button.dataset.menu = 'index';
                 button.setAttribute('aria-label', 'Toggle Navigation');
                 button.setAttribute('aria-expanded', 'false');
-                button.innerHTML = '<span></span><span></span><span></span>';
-                
+                button.innerHTML = '☰';
+                button.style.cssText = `
+                    position: static;
+                    background: transparent;
+                    border: 1.5px solid #00c853;
+                    color: #00c853;
+                    padding: 6px 10px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    line-height: 1;
+                    display: none;
+                    flex-shrink: 0;
+                    order: 2;
+                `;
+
+                // Insert between nav and auth-buttons in header-container
                 const headerContainer = this.header.querySelector('.header-container');
-                if (headerContainer) {
+                const authButtons = headerContainer.querySelector('.auth-buttons');
+                if (authButtons) {
+                    headerContainer.insertBefore(button, authButtons);
+                } else {
                     headerContainer.appendChild(button);
                 }
             }
@@ -177,7 +188,6 @@
                 });
             });
 
-            // Close when clicking outside header
             document.addEventListener('click', (event) => {
                 if (this.isOpen && !this.header.contains(event.target)) {
                     this.close();
@@ -199,21 +209,23 @@
 
         open() {
             this.nav.classList.add('active');
-            this.toggleButton.classList.add('active');
+            this.toggleButton.innerHTML = '✕';
             this.toggleButton.setAttribute('aria-expanded', 'true');
             this.isOpen = true;
         }
 
         close() {
             this.nav.classList.remove('active');
-            this.toggleButton.classList.remove('active');
+            this.toggleButton.innerHTML = '☰';
             this.toggleButton.setAttribute('aria-expanded', 'false');
             this.isOpen = false;
         }
 
         handleResize() {
             if (isMobile()) {
-                this.toggleButton.style.display = 'flex';
+                this.toggleButton.style.display = 'inline-flex';
+                this.toggleButton.style.alignItems = 'center';
+                this.toggleButton.style.justifyContent = 'center';
             } else {
                 this.toggleButton.style.display = 'none';
                 this.close();
@@ -223,14 +235,12 @@
 
     /**
      * Initialize both menu systems
-     * Safe to call on any page - will only initialize what's needed
      */
     const init = () => {
         new DashboardMenu();
         new IndexMenu();
     };
     
-    // Auto-initialize when DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
