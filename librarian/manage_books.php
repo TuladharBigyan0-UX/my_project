@@ -359,7 +359,7 @@ while ($row = $categoriesResult->fetch_assoc()) {
         <ul class="menu">
             <?php if ($user['role'] === 'librarian'): ?>
                 <li><a href="../dashboard/librarian_dashboard.php">Dashboard</a></li>
-                <li><a href="list_book.php" class="active">Manage Books</a></li>
+                <li><a href="book_list.php" class="active">Manage Books</a></li>
                 <li><a href="../php/issue_books.php">Issue Books</a></li>
                 <li><a href="../php/return_books.php">Return Books</a></li>
                 <li><a href="../php/view_members.php">View Members</a></li>
@@ -470,7 +470,7 @@ while ($row = $categoriesResult->fetch_assoc()) {
                         <button type="submit" class="btn-submit">
                             <?= $bookId ? '💾 Update Book' : '➕ Add Book'; ?>
                         </button>
-                        <a href="manage_books.php" class="btn-cancel">Cancel</a>
+                        <a href="book_list.php" class="btn-cancel">Cancel</a>
                     </div>
                 </form>
             </div>
