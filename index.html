@@ -1,27 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library MS - Dark Theme</title>
     <link rel="stylesheet" href="../css/index_style.css">
 </head>
-
 <body>
 
-    <!-- ===========================
-        HEADER
-    ============================ -->
+    <!-- HEADER -->
     <header>
         <div class="header-container">
 
-            <!-- Logo -->
             <div class="logo">
                 <img src="../images/logo.png" alt="logo"> Library MS
             </div>
 
-            <!-- Nav links + auth buttons (shown in dropdown on mobile) -->
+            <!-- Nav: links + auth buttons at the bottom (mobile only) -->
             <nav id="mainNav">
                 <ul>
                     <li><a href="#home">Home</a></li>
@@ -29,22 +24,21 @@
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
-
-                <!-- Auth buttons inside nav — only visible on mobile via CSS -->
+                <!-- Login/Signup shown at bottom of nav on mobile -->
                 <div class="nav-auth">
                     <a href="../php/login.php" class="btn-login">Login</a>
                     <a href="../html/signup.html" class="btn-signup">Sign Up</a>
                 </div>
             </nav>
 
-            <!-- Desktop auth buttons (hidden on mobile) -->
+            <!-- Desktop auth buttons (hidden on mobile via CSS) -->
             <div class="auth-buttons">
                 <a href="../php/login.php" class="btn-login">Login</a>
                 <a href="../html/signup.html" class="btn-signup">Sign Up</a>
             </div>
 
-            <!-- Hamburger toggle (shown on mobile only) -->
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+            <!-- Hamburger button (visible on mobile only) -->
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -53,9 +47,7 @@
         </div>
     </header>
 
-    <!-- ===========================
-        HERO
-    ============================ -->
+    <!-- HERO -->
     <section id="home" class="hero">
         <div class="container">
             <img src="../images/logo.png" alt="logo">
@@ -68,57 +60,46 @@
         </div>
     </section>
 
-    <!-- ===========================
-        FEATURES
-    ============================ -->
+    <!-- FEATURES -->
     <section id="features" class="features">
         <div class="container">
             <h2>Features</h2>
             <div class="feature-grid">
-
                 <div class="feature-card">
                     <div class="feature-icon">🔍</div>
                     <h3>Easy Book Search</h3>
                     <p>Students and staff can quickly find books by name, author, or category using the smart search.</p>
                 </div>
-
                 <div class="feature-card">
                     <div class="feature-icon">🔄</div>
                     <h3>Fast Book Issuing & Returning</h3>
                     <p>Librarians can issue and return books instantly with automated due dates and availability updates.</p>
                 </div>
-
                 <div class="feature-card">
                     <div class="feature-icon">👥</div>
                     <h3>Student Book Tracking</h3>
                     <p>Students can log in to check their issued books, due dates, and fine status.</p>
                 </div>
-
                 <div class="feature-card">
                     <div class="feature-icon">📊</div>
                     <h3>Real-Time Availability</h3>
                     <p>See how many copies of a book are available before borrowing.</p>
                 </div>
-
                 <div class="feature-card">
                     <div class="feature-icon">💰</div>
                     <h3>Automatic Fine Calculation</h3>
                     <p>The system calculates fines automatically based on the number of overdue days.</p>
                 </div>
-
                 <div class="feature-card">
                     <div class="feature-icon">🔐</div>
                     <h3>Secure Login System</h3>
-                    <p>Separate login for students and librarians with secure authentication to protect library data.</p>
+                    <p>Separate login for students and librarians with secure authentication.</p>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <!-- ===========================
-        ABOUT
-    ============================ -->
+    <!-- ABOUT -->
     <section id="about" class="about">
         <div class="container">
             <h2>About Our Library System</h2>
@@ -127,7 +108,6 @@
                 It simplifies book management, student tracking, issue/return operations, and
                 ensures a smooth reading experience for students and staff.
             </p>
-
             <div class="about-grid">
                 <div class="about-card">
                     <h3>🎯 Our Purpose</h3>
@@ -141,21 +121,19 @@
                 </div>
                 <div class="about-card">
                     <h3>🏫 School Friendly</h3>
-                    <p>The system is built with school requirements in mind—simple navigation, secure login,
-                        and tracking tailored for students and teachers.</p>
+                    <p>The system is built with school requirements in mind—simple navigation,
+                        secure login, and tracking tailored for students and teachers.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===========================
-        CONTACT
-    ============================ -->
+    <!-- CONTACT -->
     <section id="contact" class="contact">
         <div class="container-contact">
             <div class="contact-info">
                 <h2>Contact Us</h2>
-                <p>We'd love to hear from you. Reach out for support, suggestions, or feedback about our Library MS.</p>
+                <p>We'd love to hear from you. Reach out for support, suggestions, or feedback.</p>
                 <ul>
                     <li>📧 email@example.com</li>
                     <li>📞 +977-123456789</li>
@@ -165,17 +143,13 @@
         </div>
     </section>
 
-    <!-- ===========================
-        FOOTER
-    ============================ -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container footer-container">
-
             <div class="footer-column">
                 <div class="footer-logo">Library MS</div>
                 <p>Your modern library management system for schools. Easy, fast, and secure.</p>
             </div>
-
             <div class="footer-column">
                 <h4>Quick Links</h4>
                 <ul>
@@ -185,51 +159,52 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
-
             <div class="footer-column">
                 <h4>Contact</h4>
                 <p>Email: support@libraryms.com</p>
                 <p>Phone: +977-XXXXXXXXX</p>
             </div>
-
         </div>
-
         <div class="footer-bottom">
             &copy; 2025 Library MS. All rights reserved.
         </div>
     </footer>
 
+    <!-- NAV TOGGLE SCRIPT — must come BEFORE mobile_menu.js -->
     <script>
-        // Hamburger toggle for index page nav
-        const toggle = document.getElementById('navToggle');
-        const nav = document.getElementById('mainNav');
+        (function () {
+            var btn = document.getElementById('navToggle');
+            var nav = document.getElementById('mainNav');
 
-        toggle.addEventListener('click', function () {
-            const isOpen = nav.classList.toggle('active');
-            toggle.classList.toggle('open', isOpen);
-            toggle.setAttribute('aria-expanded', isOpen);
-        });
+            if (!btn || !nav) return;
 
-        // Close nav when a link is clicked
-        nav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                nav.classList.remove('active');
-                toggle.classList.remove('open');
-                toggle.setAttribute('aria-expanded', false);
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var open = nav.classList.toggle('active');
+                btn.classList.toggle('open', open);
+                btn.setAttribute('aria-expanded', open);
             });
-        });
 
-        // Close nav when clicking outside
-        document.addEventListener('click', function (e) {
-            if (!document.querySelector('header').contains(e.target)) {
-                nav.classList.remove('active');
-                toggle.classList.remove('open');
-                toggle.setAttribute('aria-expanded', false);
-            }
-        });
+            // Close on any nav link click
+            nav.querySelectorAll('a').forEach(function (a) {
+                a.addEventListener('click', function () {
+                    nav.classList.remove('active');
+                    btn.classList.remove('open');
+                    btn.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            // Close on outside click
+            document.addEventListener('click', function (e) {
+                if (!document.querySelector('header').contains(e.target)) {
+                    nav.classList.remove('active');
+                    btn.classList.remove('open');
+                    btn.setAttribute('aria-expanded', 'false');
+                }
+            });
+        })();
     </script>
 
     <script src="../js/mobile_menu.js"></script>
 </body>
-
 </html>
