@@ -18,11 +18,9 @@ $user = $_SESSION['user'];
 // =======================
 if (isset($_GET['delete'])) {
     $id = (int)$_GET['delete'];
-
     $stmt = $conn->prepare("DELETE FROM librarians WHERE id=?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
-
     header("Location: manage_librarian.php");
     exit();
 }
@@ -31,16 +29,17 @@ if (isset($_GET['delete'])) {
 // FETCH LIBRARIANS
 // =======================
 $result = $conn->query("SELECT * FROM librarians ORDER BY id DESC");
+$librarians = [];
+if ($result) { while ($row = $result->fetch_assoc()) $librarians[] = $row; }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Manage Librarians</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/responsive.css">
     <style>
-        /* ── Top bar ── */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -50,7 +49,34 @@ $result = $conn->query("SELECT * FROM librarians ORDER BY id DESC");
             margin-bottom: 20px;
         }
 
-        /* ── Responsive table card ── */
+        /* Action buttons */
+        .action-btn {
+            padding: 7px 13px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .action-btn.edit  { background: rgba(59,130,246,0.15); color: #3b82f6; }
+        .action-btn.edit:hover  { background: #3b82f6; color: #fff; }
+        .action-btn.delete { background: rgba(239,68,68,0.15); color: #ef4444; }
+        .action-btn.delete:hover { background: #ef4444; color: #fff; }
+
+        .action-cell { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        /* ── Desktop table ── */
         .table-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -63,7 +89,6 @@ $result = $conn->query("SELECT * FROM librarians ORDER BY id DESC");
             border-collapse: collapse;
             background: transparent;
             color: var(--text-primary);
-            box-shadow: none;
         }
 
         .librarian-table th {
@@ -74,6 +99,7 @@ $result = $conn->query("SELECT * FROM librarians ORDER BY id DESC");
             font-weight: 600;
             font-size: 13px;
             border-bottom: 2px solid #3a3f4e;
+            white-space: nowrap;
         }
 
         .librarian-table td {
@@ -81,110 +107,106 @@ $result = $conn->query("SELECT * FROM librarians ORDER BY id DESC");
             border-bottom: 1px solid var(--border-color);
             font-size: 14px;
             color: var(--text-primary);
+            vertical-align: middle;
         }
 
-        .librarian-table tbody tr:last-child td {
-            border-bottom: none;
-        }
+        .librarian-table tbody tr:last-child td { border-bottom: none; }
+        .librarian-table tbody tr:hover { background: rgba(255,255,255,0.03); }
 
-        .librarian-table tbody tr:hover {
-            background: rgba(255,255,255,0.03);
-        }
+        /* ── Mobile cards (hidden on desktop) ── */
+        .mobile-cards { display: none; }
 
-        /* ── Action buttons ── */
-        .action-cell {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        @media (max-width: 768px) {
+            .table-card   { display: none; }
+            .mobile-cards { display: flex; flex-direction: column; gap: 12px; }
 
-        .action-btn {
-            padding: 7px 14px;
-            border: none;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-
-        .action-btn.edit {
-            background: rgba(59,130,246,0.15);
-            color: #3b82f6;
-        }
-
-        .action-btn.edit:hover {
-            background: #3b82f6;
-            color: #fff;
-        }
-
-        .action-btn.delete {
-            background: rgba(239,68,68,0.15);
-            color: #ef4444;
-        }
-
-        .action-btn.delete:hover {
-            background: #ef4444;
-            color: #fff;
-        }
-
-        /* ── Empty state ── */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-muted);
-        }
-
-        /* ── Card layout for very small screens ── */
-        @media (max-width: 600px) {
-            .librarian-table thead {
-                display: none;
+            .librarian-card {
+                background: var(--card-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 12px;
+                padding: 16px;
             }
 
-            .librarian-table,
-            .librarian-table tbody,
-            .librarian-table tr,
-            .librarian-table td {
-                display: block;
-                width: 100%;
+            /* Header: avatar + name + id */
+            .mc-header {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 12px;
+                padding-bottom: 12px;
+                border-bottom: 1px solid var(--border-color);
             }
 
-            .librarian-table tr {
-                border-bottom: 2px solid var(--border-color);
-                padding: 12px 0;
+            .mc-avatar {
+                width: 42px;
+                height: 42px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--green), #06c456);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                font-weight: 700;
+                color: #000;
+                flex-shrink: 0;
             }
 
-            .librarian-table tr:last-child {
-                border-bottom: none;
+            .mc-name {
+                flex: 1;
+                font-size: 15px;
+                font-weight: 600;
+                color: var(--text-primary);
             }
 
-            .librarian-table td {
-                border-bottom: none;
-                padding: 6px 16px;
+            .mc-sn {
+                font-size: 11px;
+                color: var(--text-muted);
+                background: rgba(255,255,255,0.05);
+                padding: 3px 8px;
+                border-radius: 10px;
+                flex-shrink: 0;
+            }
+
+            /* Detail rows */
+            .mc-row {
                 display: flex;
                 justify-content: space-between;
-                align-items: center;
+                align-items: flex-start;
+                padding: 5px 0;
                 gap: 8px;
                 font-size: 13px;
             }
 
-            .librarian-table td::before {
-                content: attr(data-label);
-                font-weight: 600;
+            .mc-label {
                 color: var(--text-secondary);
-                font-size: 11px;
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
+                font-size: 12px;
                 flex-shrink: 0;
-                min-width: 60px;
+                padding-top: 1px;
             }
 
-            .action-cell {
-                justify-content: flex-end;
+            .mc-value {
+                color: var(--text-primary);
+                text-align: right;
+                word-break: break-all;
             }
+
+            /* Footer: actions */
+            .mc-footer {
+                display: flex;
+                justify-content: flex-end;
+                gap: 8px;
+                margin-top: 12px;
+                padding-top: 12px;
+                border-top: 1px solid var(--border-color);
+                flex-wrap: wrap;
+            }
+
+            .action-btn { padding: 9px 18px; font-size: 13px; }
+        }
+
+        @media (max-width: 420px) {
+            .mc-footer { justify-content: stretch; }
+            .mc-footer .action-btn { flex: 1; text-align: center; }
         }
     </style>
 </head>
@@ -198,7 +220,6 @@ $result = $conn->query("SELECT * FROM librarians ORDER BY id DESC");
             <h3><?= htmlspecialchars($user['fullname']); ?></h3>
             <p>Admin</p>
         </div>
-
         <ul class="menu">
             <li><a href="../dashboard/admin_dashboard.php">Dashboard</a></li>
             <li><a href="manage_librarian.php" class="active">Manage Librarians</a></li>
@@ -220,6 +241,7 @@ $result = $conn->query("SELECT * FROM librarians ORDER BY id DESC");
             <a href="add_edit_librarian.php" class="btn">➕ Add Librarian</a>
         </div>
 
+        <!-- ===== DESKTOP TABLE ===== -->
         <div class="table-card">
             <div class="table-wrapper">
                 <table class="librarian-table">
@@ -232,41 +254,70 @@ $result = $conn->query("SELECT * FROM librarians ORDER BY id DESC");
                             <th>Action</th>
                         </tr>
                     </thead>
-
                     <tbody>
-                        <?php if ($result->num_rows > 0): ?>
-                            <?php $sn = 1; ?>
-                            <?php while ($row = $result->fetch_assoc()): ?>
+                        <?php if (count($librarians) > 0): ?>
+                            <?php foreach ($librarians as $i => $row): ?>
                             <tr>
-                                <td data-label="SN"><?= $sn++; ?></td>
-                                <td data-label="Name"><?= htmlspecialchars($row['fullname']); ?></td>
-                                <td data-label="Email"><?= htmlspecialchars($row['email']); ?></td>
-                                <td data-label="Phone"><?= htmlspecialchars($row['phone']); ?></td>
-                                <td data-label="Action">
+                                <td><?= $i + 1; ?></td>
+                                <td><?= htmlspecialchars($row['fullname']); ?></td>
+                                <td><?= htmlspecialchars($row['email']); ?></td>
+                                <td><?= htmlspecialchars($row['phone']); ?></td>
+                                <td>
                                     <div class="action-cell">
                                         <a href="add_edit_librarian.php?id=<?= $row['id']; ?>" class="action-btn edit">✏️ Edit</a>
                                         <a href="?delete=<?= $row['id']; ?>"
                                            class="action-btn delete"
-                                           onclick="return confirm('Delete this librarian?')">
-                                           🗑️ Delete
-                                        </a>
+                                           onclick="return confirm('Delete this librarian?')">🗑️ Delete</a>
                                     </div>
                                 </td>
                             </tr>
-                            <?php endwhile; ?>
+                            <?php endforeach; ?>
                         <?php else: ?>
-                            <tr>
-                                <td colspan="5">
-                                    <div class="empty-state">No librarians found.</div>
-                                </td>
-                            </tr>
+                            <tr><td colspan="5"><div class="empty-state">No librarians found.</div></td></tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
             </div>
         </div>
-    </main>
 
+        <!-- ===== MOBILE CARDS ===== -->
+        <div class="mobile-cards">
+            <?php if (count($librarians) > 0): ?>
+                <?php foreach ($librarians as $i => $row): ?>
+                <div class="librarian-card">
+
+                    <div class="mc-header">
+                        <div class="mc-avatar"><?= strtoupper(substr($row['fullname'], 0, 1)); ?></div>
+                        <div class="mc-name"><?= htmlspecialchars($row['fullname']); ?></div>
+                        <div class="mc-sn">#<?= $i + 1; ?></div>
+                    </div>
+
+                    <div class="mc-row">
+                        <span class="mc-label">Email</span>
+                        <span class="mc-value"><?= htmlspecialchars($row['email']); ?></span>
+                    </div>
+                    <div class="mc-row">
+                        <span class="mc-label">Phone</span>
+                        <span class="mc-value"><?= htmlspecialchars($row['phone'] ?: '—'); ?></span>
+                    </div>
+
+                    <div class="mc-footer">
+                        <a href="add_edit_librarian.php?id=<?= $row['id']; ?>" class="action-btn edit">✏️ Edit</a>
+                        <a href="?delete=<?= $row['id']; ?>"
+                           class="action-btn delete"
+                           onclick="return confirm('Delete this librarian?')">🗑️ Delete</a>
+                    </div>
+
+                </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="librarian-card">
+                    <div class="empty-state">No librarians found.</div>
+                </div>
+            <?php endif; ?>
+        </div>
+
+    </main>
 </div>
 
 <script src="../js/mobile_menu.js"></script>
