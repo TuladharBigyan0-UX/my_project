@@ -7,10 +7,8 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
 
 $user = $_SESSION['user'];
 
-// Include database connection
 include("../php/connection.php");
 
-// Fetch statistics with error handling
 $totalBooks = 0;
 $availableBooks = 0;
 $totalStudents = 0;
@@ -19,45 +17,37 @@ $overdueBooks = 0;
 $activeIssues = 0;
 $pendingFines = 0.00;
 
-// Check if books table exists and fetch data
 $checkBooks = $conn->query("SHOW TABLES LIKE 'books'");
 if ($checkBooks && $checkBooks->num_rows > 0) {
     $result = $conn->query("SELECT COUNT(*) as count FROM books");
     if ($result) $totalBooks = $result->fetch_assoc()['count'] ?? 0;
-    
+
     $result = $conn->query("SELECT SUM(available_copies) as count FROM books");
     if ($result) $availableBooks = $result->fetch_assoc()['count'] ?? 0;
 }
 
-// Fetch member count
 $result = $conn->query("SELECT COUNT(*) as count FROM users WHERE role='member'");
 if ($result) $totalMembers = $result->fetch_assoc()['count'] ?? 0;
 
-// Check if issues table exists
 $recentActivities = [];
 $checkIssues = $conn->query("SHOW TABLES LIKE 'issues'");
 if ($checkIssues && $checkIssues->num_rows > 0) {
-    // Books issued today
     $result = $conn->query("SELECT COUNT(*) as count FROM issues WHERE DATE(issue_date) = CURDATE()");
     if ($result) $booksIssuedToday = $result->fetch_assoc()['count'] ?? 0;
-    
-    // Active issues
+
     $result = $conn->query("SELECT COUNT(*) as count FROM issues WHERE return_date IS NULL");
     if ($result) $activeIssues = $result->fetch_assoc()['count'] ?? 0;
-    
-    // Overdue books
+
     $result = $conn->query("SELECT COUNT(*) as count FROM issues WHERE return_date IS NULL AND due_date < CURDATE()");
     if ($result) $overdueBooks = $result->fetch_assoc()['count'] ?? 0;
-    
-    // Pending fines
+
     $result = $conn->query("SELECT SUM(fine_amount) as total FROM issues WHERE fine_amount > 0 AND fine_paid = 0");
     if ($result) {
         $fineData = $result->fetch_assoc();
         $pendingFines = $fineData['total'] ?? 0.00;
     }
-    
-    // Fetch recent activities (last 10 issues)
-    $query = "SELECT i.issue_id, b.title as book_title, u.fullname as member_name, 
+
+    $query = "SELECT i.issue_id, b.title as book_title, u.fullname as member_name,
               i.issue_date, i.due_date, i.return_date, i.status
               FROM issues i
               JOIN books b ON i.book_id = b.book_id
@@ -72,7 +62,6 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,6 +70,60 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        /* ── Activity mobile cards (hidden on desktop) ── */
+        .activity-mobile-cards { display: none; }
+
+        /* ── Activity card style ── */
+        .activity-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+        }
+
+        .activity-card:last-child { margin-bottom: 0; }
+
+        .ac-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        .ac-book {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .ac-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 13px;
+            gap: 8px;
+        }
+
+        .ac-label {
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .ac-value {
+            color: var(--text-primary);
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            /* Hide desktop table, show cards */
+            .recent-activity .table-wrapper { display: none; }
+            .activity-mobile-cards { display: block; }
+        }
+    </style>
 </head>
 <body>
 
@@ -113,7 +156,6 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
 
         <!-- Metric Cards -->
         <div class="metric-cards">
-            <!-- Total Books -->
             <div class="metric-card blue">
                 <div class="metric-info">
                     <h3>Total Books</h3>
@@ -123,7 +165,6 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
                 <div class="metric-icon">📚</div>
             </div>
 
-            <!-- Total Members -->
             <div class="metric-card green">
                 <div class="metric-info">
                     <h3>Total Members</h3>
@@ -132,7 +173,6 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
                 <div class="metric-icon">👥</div>
             </div>
 
-            <!-- Books Issued Today -->
             <div class="metric-card purple">
                 <div class="metric-info">
                     <h3>Books Issued Today</h3>
@@ -141,7 +181,6 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
                 <div class="metric-icon">📖</div>
             </div>
 
-            <!-- Overdue Books -->
             <div class="metric-card red">
                 <div class="metric-info">
                     <h3>Overdue Books</h3>
@@ -150,7 +189,6 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
                 <div class="metric-icon">⏰</div>
             </div>
 
-            <!-- Active Issues -->
             <div class="metric-card orange">
                 <div class="metric-info">
                     <h3>Active Issues</h3>
@@ -159,7 +197,6 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
                 <div class="metric-icon">📊</div>
             </div>
 
-            <!-- Pending Fines -->
             <div class="metric-card yellow">
                 <div class="metric-info">
                     <h3>Pending Fines</h3>
@@ -168,51 +205,85 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
                 <div class="metric-icon">💰</div>
             </div>
         </div>
-            <!-- Recent Activity Section -->
+
+        <!-- Recent Activity Section -->
         <div class="recent-activity">
             <h2>Recent Activity</h2>
-            
+
             <?php if (count($recentActivities) > 0): ?>
-                <table class="activity-table">
-                    <thead>
-                        <tr>
-                            <th>Book</th>
-                            <th>Members</th>
-                            <th>Issue Date</th>
-                            <th>Due Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($recentActivities as $activity): ?>
-                            <?php
-                                // Determine status
-                                $status = $activity['status'];
-                                if ($activity['return_date']) {
-                                    $status = 'returned';
-                                    $statusClass = 'returned';
-                                } elseif ($activity['due_date'] < date('Y-m-d')) {
-                                    $status = 'overdue';
-                                    $statusClass = 'overdue';
-                                } else {
-                                    $status = 'issued';
-                                    $statusClass = 'issued';
-                                }
-                            ?>
+
+                <!-- ── Desktop table ── -->
+                <div class="table-wrapper">
+                    <table class="activity-table">
+                        <thead>
                             <tr>
-                                <td><?= htmlspecialchars($activity['book_title']); ?></td>
-                                <td><?= htmlspecialchars($activity['member_name']); ?></td>
-                                <td><?= date('M d, Y', strtotime($activity['issue_date'])); ?></td>
-                                <td><?= date('M d, Y', strtotime($activity['due_date'])); ?></td>
-                                <td>
-                                    <span class="status-badge <?= $statusClass; ?>">
-                                        <?= ucfirst($status); ?>
-                                    </span>
-                                </td>
+                                <th>Book</th>
+                                <th>Members</th>
+                                <th>Issue Date</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($recentActivities as $activity): ?>
+                                <?php
+                                    if ($activity['return_date']) {
+                                        $status = 'returned'; $statusClass = 'returned';
+                                    } elseif ($activity['due_date'] < date('Y-m-d')) {
+                                        $status = 'overdue';  $statusClass = 'overdue';
+                                    } else {
+                                        $status = 'issued';   $statusClass = 'issued';
+                                    }
+                                ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($activity['book_title']); ?></td>
+                                    <td><?= htmlspecialchars($activity['member_name']); ?></td>
+                                    <td><?= date('M d, Y', strtotime($activity['issue_date'])); ?></td>
+                                    <td><?= date('M d, Y', strtotime($activity['due_date'])); ?></td>
+                                    <td>
+                                        <span class="status-badge <?= $statusClass; ?>">
+                                            <?= ucfirst($status); ?>
+                                        </span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ── Mobile cards ── -->
+                <div class="activity-mobile-cards">
+                    <?php foreach ($recentActivities as $activity): ?>
+                        <?php
+                            if ($activity['return_date']) {
+                                $status = 'returned'; $statusClass = 'returned';
+                            } elseif ($activity['due_date'] < date('Y-m-d')) {
+                                $status = 'overdue';  $statusClass = 'overdue';
+                            } else {
+                                $status = 'issued';   $statusClass = 'issued';
+                            }
+                        ?>
+                        <div class="activity-card">
+                            <div class="ac-top">
+                                <div class="ac-book">📖 <?= htmlspecialchars($activity['book_title']); ?></div>
+                                <span class="status-badge <?= $statusClass; ?>"><?= ucfirst($status); ?></span>
+                            </div>
+                            <div class="ac-row">
+                                <span class="ac-label">Member</span>
+                                <span class="ac-value"><?= htmlspecialchars($activity['member_name']); ?></span>
+                            </div>
+                            <div class="ac-row">
+                                <span class="ac-label">Issue Date</span>
+                                <span class="ac-value"><?= date('M d, Y', strtotime($activity['issue_date'])); ?></span>
+                            </div>
+                            <div class="ac-row">
+                                <span class="ac-label">Due Date</span>
+                                <span class="ac-value"><?= date('M d, Y', strtotime($activity['due_date'])); ?></span>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
             <?php else: ?>
                 <div class="no-activity">No recent activities</div>
             <?php endif; ?>
@@ -220,6 +291,7 @@ if ($checkIssues && $checkIssues->num_rows > 0) {
 
     </main>
 </div>
+
 <script src="../js/mobile_menu.js"></script>
 </body>
 </html>
