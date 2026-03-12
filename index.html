@@ -15,24 +15,41 @@
     ============================ -->
     <header>
         <div class="header-container">
+
+            <!-- Logo -->
             <div class="logo">
-                <img src="../images/logo.png" alt="logo" height="50"> Library MS
+                <img src="../images/logo.png" alt="logo"> Library MS
             </div>
 
-            <nav>
+            <!-- Nav links + auth buttons (shown in dropdown on mobile) -->
+            <nav id="mainNav">
                 <ul>
                     <li><a href="#home">Home</a></li>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
+
+                <!-- Auth buttons inside nav — only visible on mobile via CSS -->
+                <div class="nav-auth">
+                    <a href="../php/login.php" class="btn-login">Login</a>
+                    <a href="../html/signup.html" class="btn-signup">Sign Up</a>
+                </div>
             </nav>
 
-            <!-- Auth Buttons - visible on both desktop and mobile -->
+            <!-- Desktop auth buttons (hidden on mobile) -->
             <div class="auth-buttons">
                 <a href="../php/login.php" class="btn-login">Login</a>
                 <a href="../html/signup.html" class="btn-signup">Sign Up</a>
             </div>
+
+            <!-- Hamburger toggle (shown on mobile only) -->
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
         </div>
     </header>
 
@@ -44,7 +61,6 @@
             <img src="../images/logo.png" alt="logo">
             <h2>Your Modern Library Management System</h2>
             <p>Manage books, students, issues, returns, fines all from one powerful system.</p>
-
             <div class="hero-buttons">
                 <a class="btn" href="../php/login.php">Get Started</a>
                 <a class="btn btn-outline" href="../html/about.html">Read More</a>
@@ -137,8 +153,6 @@
     ============================ -->
     <section id="contact" class="contact">
         <div class="container-contact">
-
-            <!-- Contact Info -->
             <div class="contact-info">
                 <h2>Contact Us</h2>
                 <p>We'd love to hear from you. Reach out for support, suggestions, or feedback about our Library MS.</p>
@@ -148,7 +162,6 @@
                     <li>📍 Kathmandu, Nepal</li>
                 </ul>
             </div>
-
         </div>
     </section>
 
@@ -158,13 +171,11 @@
     <footer class="footer">
         <div class="container footer-container">
 
-            <!-- About / Logo -->
             <div class="footer-column">
                 <div class="footer-logo">Library MS</div>
                 <p>Your modern library management system for schools. Easy, fast, and secure.</p>
             </div>
 
-            <!-- Quick Links -->
             <div class="footer-column">
                 <h4>Quick Links</h4>
                 <ul>
@@ -175,7 +186,6 @@
                 </ul>
             </div>
 
-            <!-- Contact -->
             <div class="footer-column">
                 <h4>Contact</h4>
                 <p>Email: support@libraryms.com</p>
@@ -188,6 +198,36 @@
             &copy; 2025 Library MS. All rights reserved.
         </div>
     </footer>
+
+    <script>
+        // Hamburger toggle for index page nav
+        const toggle = document.getElementById('navToggle');
+        const nav = document.getElementById('mainNav');
+
+        toggle.addEventListener('click', function () {
+            const isOpen = nav.classList.toggle('active');
+            toggle.classList.toggle('open', isOpen);
+            toggle.setAttribute('aria-expanded', isOpen);
+        });
+
+        // Close nav when a link is clicked
+        nav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+                toggle.classList.remove('open');
+                toggle.setAttribute('aria-expanded', false);
+            });
+        });
+
+        // Close nav when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!document.querySelector('header').contains(e.target)) {
+                nav.classList.remove('active');
+                toggle.classList.remove('open');
+                toggle.setAttribute('aria-expanded', false);
+            }
+        });
+    </script>
 
     <script src="../js/mobile_menu.js"></script>
 </body>
