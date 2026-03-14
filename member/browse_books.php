@@ -623,10 +623,6 @@ $canBorrowMore = $activeIssues < 3;
         <div class="modal-book" id="modalBookInfo"></div>
         <form method="POST">
             <input type="hidden" name="book_id" id="modalBookId">
-            <label style="display:block;font-size:13px;color:var(--text-secondary);margin-bottom:6px;">
-                Note to librarian <span style="color:var(--text-muted);">(optional)</span>
-            </label>
-            <textarea name="notes" placeholder="e.g. I need this for a project…"></textarea>
             <div class="modal-actions">
                 <button type="button" class="modal-cancel" onclick="closeModal()">Cancel</button>
                 <button type="submit" name="request_borrow" class="modal-submit">Submit Request</button>
