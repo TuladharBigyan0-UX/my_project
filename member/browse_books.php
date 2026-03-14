@@ -47,13 +47,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_borrow'])) {
     } elseif ($book['available_copies'] <= 0) {
         $errors[] = "Sorry, this book has no available copies right now.";
     } else {
-        // No duplicate pending request for same book
-        $stmt = $conn->prepare("SELECT request_id FROM borrow_requests
-                                WHERE user_id = ? AND book_id = ? AND status = 'pending'");
+        // Block if user already has this book actively issued (not yet returned)
+        $stmt = $conn->prepare("SELECT issue_id FROM issues
+                                WHERE user_id = ? AND book_id = ? AND return_date IS NULL");
         $stmt->bind_param("ii", $userId, $bookId);
         $stmt->execute();
         if ($stmt->get_result()->num_rows > 0) {
-            $errors[] = "You already have a pending borrow request for \"{$book['title']}\".";
+            $errors[] = "You already have \"{$book['title']}\" borrowed. Please return it before requesting again.";
+        }
+        // Block duplicate pending/approved request for same book
+        elseif (($chkDup = (function() use ($conn, $userId, $bookId) {
+            $s = $conn->prepare("SELECT request_id FROM borrow_requests
+                                  WHERE user_id = ? AND book_id = ? AND status IN ('pending','approved')");
+            $s->bind_param("ii", $userId, $bookId);
+            $s->execute();
+            return $s->get_result()->num_rows;
+        })()) > 0) {
+            $errors[] = "You already have an open request for \"{$book['title']}\".";
         } else {
             // Check active issue limit (3)
             $stmt = $conn->prepare("SELECT COUNT(*) as c FROM issues
@@ -79,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_borrow'])) {
 }
 
 // ====================================
-// HANDLE CANCEL REQUEST
+// HANDLE CANCEL REQUEST (pending only)
 // ====================================
 if (isset($_GET['cancel_request'])) {
     $reqId = (int)$_GET['cancel_request'];
@@ -89,6 +99,19 @@ if (isset($_GET['cancel_request'])) {
     $stmt->bind_param("ii", $reqId, $userId);
     $stmt->execute();
     $success = "Borrow request cancelled.";
+}
+
+// ====================================
+// HANDLE DELETE REQUEST (approved only)
+// Member deletes an approved request after collecting the book
+// ====================================
+if (isset($_GET['delete_request'])) {
+    $reqId = (int)$_GET['delete_request'];
+    $stmt  = $conn->prepare("DELETE FROM borrow_requests
+                             WHERE request_id = ? AND user_id = ? AND status = 'approved'");
+    $stmt->bind_param("ii", $reqId, $userId);
+    $stmt->execute();
+    $success = "Request removed.";
 }
 
 // ====================================
@@ -149,17 +172,39 @@ if (!empty($params)) {
 }
 while ($row = $result->fetch_assoc()) $books[] = $row;
 
+// Booking counts per book (pending + approved requests from all users)
+$bookingCounts = [];
+$chkReq = $conn->query("SHOW TABLES LIKE 'borrow_requests'");
+if ($chkReq && $chkReq->num_rows > 0) {
+    $bcRes = $conn->query("SELECT book_id, COUNT(*) as cnt
+                           FROM borrow_requests
+                           WHERE status IN ('pending','approved')
+                           GROUP BY book_id");
+    while ($bcRow = $bcRes->fetch_assoc()) {
+        $bookingCounts[$bcRow['book_id']] = (int)$bcRow['cnt'];
+    }
+}
+
 // Pending request book_ids for quick lookup
 $pendingBookIds = array_column(
     array_filter($myRequests, fn($r) => $r['status'] === 'pending'),
     'request_id', 'book_id'
 );
 
-// Active issues count
-$stmt = $conn->prepare("SELECT COUNT(*) as c FROM issues WHERE user_id = ? AND return_date IS NULL");
+// Approved request book_ids for quick lookup
+$approvedBookIds = array_column(
+    array_filter($myRequests, fn($r) => $r['status'] === 'approved'),
+    'request_id', 'book_id'
+);
+
+// Active issues count + book_ids the user currently has borrowed
+$stmt = $conn->prepare("SELECT book_id FROM issues WHERE user_id = ? AND return_date IS NULL");
 $stmt->bind_param("i", $userId);
 $stmt->execute();
-$activeIssues  = $stmt->get_result()->fetch_assoc()['c'] ?? 0;
+$activeIssueRes  = $stmt->get_result();
+$activeIssueBookIds = [];
+while ($r = $activeIssueRes->fetch_assoc()) $activeIssueBookIds[$r['book_id']] = true;
+$activeIssues  = count($activeIssueBookIds);
 $canBorrowMore = $activeIssues < 3;
 ?>
 <!DOCTYPE html>
@@ -382,7 +427,59 @@ $canBorrowMore = $activeIssues < 3;
             font-size: 13px;
             font-weight: 600;
             cursor: default;
+            text-align: center;
         }
+        .btn-approved {
+            width: 100%;
+            padding: 10px;
+            background: rgba(34,197,94,.18);
+            color: #22c55e;
+            border: 1px solid rgba(34,197,94,.45);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: default;
+            text-align: center;
+        }
+        .btn-borrowed {
+            width: 100%;
+            padding: 10px;
+            background: rgba(59,130,246,.15);
+            color: #3b82f6;
+            border: 1px solid rgba(59,130,246,.35);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: default;
+            text-align: center;
+        }
+        .booking-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(168,85,247,.15);
+            border: 1px solid rgba(168,85,247,.3);
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #a855f7;
+        }
+        .btn-delete-req {
+            display: block;
+            padding: 8px 14px;
+            background: rgba(239,68,68,.15);
+            color: #ef4444;
+            border: 1px solid rgba(239,68,68,.35);
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .2s;
+            text-align: center;
+        }
+        .btn-delete-req:hover { background: #ef4444; color: #fff; }
+        /* approved badge in request strip */
+        .req-badge.approved { background: rgba(34,197,94,.15); color: #22c55e; }
 
         /* Modal */
         .modal-overlay {
@@ -496,6 +593,10 @@ $canBorrowMore = $activeIssues < 3;
                         <a href="?cancel_request=<?= $req['request_id']; ?>"
                            class="btn-cancel-req"
                            onclick="return confirm('Cancel this request?')">✕ Cancel</a>
+                    <?php elseif ($req['status'] === 'approved'): ?>
+                        <a href="?delete_request=<?= $req['request_id']; ?>"
+                           class="btn-delete-req"
+                           onclick="return confirm('Remove this approved request?')">🗑️ Delete</a>
                     <?php endif; ?>
                 </div>
                 <?php endforeach; ?>
@@ -577,14 +678,39 @@ $canBorrowMore = $activeIssues < 3;
                     </div>
 
                     <div class="book-footer">
+                        <?php
+                            $bookings = $bookingCounts[$book['book_id']] ?? 0;
+                        ?>
                         <?php if ($isAvailable): ?>
                             <span class="availability-badge available">✓ <?= $book['available_copies']; ?> Available</span>
                         <?php else: ?>
                             <span class="availability-badge unavailable">✕ Not Available</span>
                         <?php endif; ?>
+                        <?php if ($bookings > 0): ?>
+                            <span class="booking-badge">🔖 <?= $bookings; ?> <?= $bookings === 1 ? 'booking' : 'bookings'; ?></span>
+                        <?php endif; ?>
 
-                        <?php if ($hasPending): ?>
-                            <!-- Already requested -->
+                        <?php
+                            $hasApproved    = isset($approvedBookIds[$book['book_id']]);
+                            $approvedReqId  = $approvedBookIds[$book['book_id']] ?? null;
+                            $alreadyBorrowed = isset($activeIssueBookIds[$book['book_id']]);
+                        ?>
+                        <?php if ($alreadyBorrowed): ?>
+                            <!-- User already has this book issued -->
+                            <div class="btn-borrowed">📖 Already Borrowed</div>
+
+                        <?php elseif ($hasApproved): ?>
+                            <!-- Approved — member can go collect -->
+                            <div class="btn-approved">✅ Request Approved!</div>
+                            <p style="font-size:12px;color:var(--text-secondary);text-align:center;margin:0;">
+                                Visit the library to collect this book.
+                            </p>
+                            <a href="?delete_request=<?= $approvedReqId; ?>"
+                               class="btn-delete-req" style="width:100%;text-align:center;padding:8px 0;"
+                               onclick="return confirm('Remove this approved request?')">🗑️ Delete Request</a>
+
+                        <?php elseif ($hasPending): ?>
+                            <!-- Pending — waiting for review -->
                             <div class="btn-pending">⏳ Request Pending</div>
                             <a href="?cancel_request=<?= $pendingReqId; ?>"
                                class="btn-cancel-req" style="width:100%;text-align:center;padding:8px 0;"
@@ -623,6 +749,10 @@ $canBorrowMore = $activeIssues < 3;
         <div class="modal-book" id="modalBookInfo"></div>
         <form method="POST">
             <input type="hidden" name="book_id" id="modalBookId">
+            <label style="display:block;font-size:13px;color:var(--text-secondary);margin-bottom:6px;">
+                Note to librarian <span style="color:var(--text-muted);">(optional)</span>
+            </label>
+            <textarea name="notes" placeholder="e.g. I need this for a project…"></textarea>
             <div class="modal-actions">
                 <button type="button" class="modal-cancel" onclick="closeModal()">Cancel</button>
                 <button type="submit" name="request_borrow" class="modal-submit">Submit Request</button>

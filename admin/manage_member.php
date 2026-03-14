@@ -17,7 +17,7 @@ $user = $_SESSION['user'];
 // APPROVE / REJECT MEMBER
 // =======================
 if (isset($_GET['action']) && isset($_GET['id'])) {
-    $id = (int)$_GET['id'];
+    $id     = (int)$_GET['id'];
     $action = $_GET['action'];
 
     if ($action === 'approve') {
@@ -26,6 +26,10 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
         $stmt->execute();
     } elseif ($action === 'reject') {
         $stmt = $conn->prepare("DELETE FROM users WHERE id=?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+    } elseif ($action === 'delete') {
+        $stmt = $conn->prepare("DELETE FROM users WHERE id=? AND role='member'");
         $stmt->bind_param("i", $id);
         $stmt->execute();
     }
@@ -64,7 +68,6 @@ $pendingCount = $conn->query("SELECT COUNT(*) as c FROM users WHERE role='member
             margin-bottom: 20px;
         }
 
-        /* Filter buttons */
         .filter-buttons {
             display: flex;
             gap: 8px;
@@ -87,7 +90,8 @@ $pendingCount = $conn->query("SELECT COUNT(*) as c FROM users WHERE role='member
             gap: 6px;
         }
 
-        .filter-btn:hover, .filter-btn.active {
+        .filter-btn:hover,
+        .filter-btn.active {
             background: var(--green);
             color: #000;
             border-color: var(--green);
@@ -102,7 +106,6 @@ $pendingCount = $conn->query("SELECT COUNT(*) as c FROM users WHERE role='member
             font-weight: 700;
         }
 
-        /* Status pill */
         .status-pill {
             display: inline-block;
             padding: 4px 12px;
@@ -111,7 +114,7 @@ $pendingCount = $conn->query("SELECT COUNT(*) as c FROM users WHERE role='member
             font-weight: 600;
         }
 
-        .status-pill.approved { background: rgba(34,197,94,0.15); color: #22c55e; }
+        .status-pill.approved { background: rgba(34,197,94,0.15);  color: #22c55e; }
         .status-pill.pending  { background: rgba(234,179,8,0.15);  color: #eab308; }
 
         /* Action buttons */
@@ -130,8 +133,12 @@ $pendingCount = $conn->query("SELECT COUNT(*) as c FROM users WHERE role='member
 
         .action-btn.approve { background: rgba(34,197,94,0.15); color: #22c55e; }
         .action-btn.approve:hover { background: #22c55e; color: #000; }
+
         .action-btn.reject  { background: rgba(239,68,68,0.15);  color: #ef4444; }
         .action-btn.reject:hover  { background: #ef4444; color: #fff; }
+
+        .action-btn.delete  { background: rgba(239,68,68,0.15);  color: #ef4444; }
+        .action-btn.delete:hover  { background: #ef4444; color: #fff; }
 
         .empty-state {
             text-align: center;
@@ -139,7 +146,7 @@ $pendingCount = $conn->query("SELECT COUNT(*) as c FROM users WHERE role='member
             color: var(--text-muted);
         }
 
-        /* ── Desktop table ── */
+        /* Desktop table */
         .table-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -174,16 +181,15 @@ $pendingCount = $conn->query("SELECT COUNT(*) as c FROM users WHERE role='member
         }
 
         .member-table tbody tr:last-child td { border-bottom: none; }
-        .member-table tbody tr:hover { background: rgba(255,255,255,0.03); }
-        .member-table tbody tr.pending-row { background: rgba(234,179,8,0.04); }
+        .member-table tbody tr:hover         { background: rgba(255,255,255,0.03); }
+        .member-table tbody tr.pending-row   { background: rgba(234,179,8,0.04); }
 
         .action-cell { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
-        /* ── Mobile cards (hidden on desktop) ── */
+        /* Mobile cards */
         .mobile-cards { display: none; }
 
         @media (max-width: 768px) {
-            /* Hide table, show cards */
             .table-card   { display: none; }
             .mobile-cards { display: flex; flex-direction: column; gap: 12px; }
 
@@ -199,7 +205,6 @@ $pendingCount = $conn->query("SELECT COUNT(*) as c FROM users WHERE role='member
                 background: rgba(234,179,8,0.04);
             }
 
-            /* Header row: avatar + name + sn */
             .mc-header {
                 display: flex;
                 align-items: center;
@@ -210,59 +215,29 @@ $pendingCount = $conn->query("SELECT COUNT(*) as c FROM users WHERE role='member
             }
 
             .mc-avatar {
-                width: 42px;
-                height: 42px;
+                width: 42px; height: 42px;
                 border-radius: 50%;
                 background: linear-gradient(135deg, var(--green), #06c456);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 18px;
-                font-weight: 700;
-                color: #000;
-                flex-shrink: 0;
+                display: flex; align-items: center; justify-content: center;
+                font-size: 18px; font-weight: 700; color: #000; flex-shrink: 0;
             }
 
-            .mc-name {
-                flex: 1;
-                font-size: 15px;
-                font-weight: 600;
-                color: var(--text-primary);
-            }
+            .mc-name { flex: 1; font-size: 15px; font-weight: 600; color: var(--text-primary); }
 
             .mc-sn {
-                font-size: 11px;
-                color: var(--text-muted);
+                font-size: 11px; color: var(--text-muted);
                 background: rgba(255,255,255,0.05);
-                padding: 3px 8px;
-                border-radius: 10px;
-                flex-shrink: 0;
+                padding: 3px 8px; border-radius: 10px; flex-shrink: 0;
             }
 
-            /* Detail rows */
             .mc-row {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                padding: 5px 0;
-                gap: 8px;
-                font-size: 13px;
+                display: flex; justify-content: space-between;
+                align-items: flex-start; padding: 5px 0; gap: 8px; font-size: 13px;
             }
 
-            .mc-label {
-                color: var(--text-secondary);
-                font-size: 12px;
-                flex-shrink: 0;
-                padding-top: 1px;
-            }
+            .mc-label { color: var(--text-secondary); font-size: 12px; flex-shrink: 0; padding-top: 1px; }
+            .mc-value { color: var(--text-primary); text-align: right; word-break: break-all; }
 
-            .mc-value {
-                color: var(--text-primary);
-                text-align: right;
-                word-break: break-all;
-            }
-
-            /* Footer: status + actions */
             .mc-footer {
                 display: flex;
                 justify-content: space-between;
@@ -275,7 +250,6 @@ $pendingCount = $conn->query("SELECT COUNT(*) as c FROM users WHERE role='member
             }
 
             .mc-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-
             .action-btn { padding: 8px 16px; font-size: 13px; }
         }
 
@@ -317,11 +291,16 @@ $pendingCount = $conn->query("SELECT COUNT(*) as c FROM users WHERE role='member
         </div>
 
         <div class="filter-buttons">
-            <a href="manage_member.php" class="filter-btn <?= $filter === '' ? 'active' : ''; ?>">
+            <a href="manage_member.php"
+               class="filter-btn <?= $filter === '' ? 'active' : ''; ?>">
                 All Members
             </a>
-            <a href="manage_member.php?filter=pending" class="filter-btn <?= $filter === 'pending' ? 'active' : ''; ?>">
-                Pending <?php if ($pendingCount > 0): ?><span class="badge"><?= $pendingCount; ?></span><?php endif; ?>
+            <a href="manage_member.php?filter=pending"
+               class="filter-btn <?= $filter === 'pending' ? 'active' : ''; ?>">
+                Pending
+                <?php if ($pendingCount > 0): ?>
+                    <span class="badge"><?= $pendingCount; ?></span>
+                <?php endif; ?>
             </a>
         </div>
 
@@ -358,23 +337,31 @@ $pendingCount = $conn->query("SELECT COUNT(*) as c FROM users WHERE role='member
                                     </span>
                                 </td>
                                 <td>
-                                    <?php if ($row['status'] !== 'approved'): ?>
-                                        <div class="action-cell">
+                                    <div class="action-cell">
+                                        <?php if ($row['status'] !== 'approved'): ?>
                                             <a href="?action=approve&id=<?= $row['id']; ?><?= $filter ? '&filter='.$filter : ''; ?>"
                                                class="action-btn approve"
                                                onclick="return confirm('Approve this member?')">✅ Approve</a>
                                             <a href="?action=reject&id=<?= $row['id']; ?><?= $filter ? '&filter='.$filter : ''; ?>"
                                                class="action-btn reject"
                                                onclick="return confirm('Reject and delete this member?')">❌ Reject</a>
-                                        </div>
-                                    <?php else: ?>
-                                        <span style="color:#22c55e;font-size:18px;">✅</span>
-                                    <?php endif; ?>
+                                        <?php else: ?>
+                                            <a href="?action=delete&id=<?= $row['id']; ?><?= $filter ? '&filter='.$filter : ''; ?>"
+                                               class="action-btn delete"
+                                               onclick="return confirm('Delete this member? This cannot be undone.')">🗑️ Delete</a>
+                                        <?php endif; ?>
+                                    </div>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <tr><td colspan="6"><div class="empty-state"><?= $filter === 'pending' ? 'No pending members.' : 'No members found.'; ?></div></td></tr>
+                            <tr>
+                                <td colspan="6">
+                                    <div class="empty-state">
+                                        <?= $filter === 'pending' ? 'No pending members.' : 'No members found.'; ?>
+                                    </div>
+                                </td>
+                            </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
@@ -407,22 +394,28 @@ $pendingCount = $conn->query("SELECT COUNT(*) as c FROM users WHERE role='member
                             <?= $row['status'] === 'approved' ? '✅ Approved' : '⏳ Pending'; ?>
                         </span>
 
-                        <?php if ($row['status'] !== 'approved'): ?>
                         <div class="mc-actions">
-                            <a href="?action=approve&id=<?= $row['id']; ?><?= $filter ? '&filter='.$filter : ''; ?>"
-                               class="action-btn approve"
-                               onclick="return confirm('Approve this member?')">✅ Approve</a>
-                            <a href="?action=reject&id=<?= $row['id']; ?><?= $filter ? '&filter='.$filter : ''; ?>"
-                               class="action-btn reject"
-                               onclick="return confirm('Reject this member?')">❌ Reject</a>
+                            <?php if ($row['status'] !== 'approved'): ?>
+                                <a href="?action=approve&id=<?= $row['id']; ?><?= $filter ? '&filter='.$filter : ''; ?>"
+                                   class="action-btn approve"
+                                   onclick="return confirm('Approve this member?')">✅ Approve</a>
+                                <a href="?action=reject&id=<?= $row['id']; ?><?= $filter ? '&filter='.$filter : ''; ?>"
+                                   class="action-btn reject"
+                                   onclick="return confirm('Reject this member?')">❌ Reject</a>
+                            <?php else: ?>
+                                <a href="?action=delete&id=<?= $row['id']; ?><?= $filter ? '&filter='.$filter : ''; ?>"
+                                   class="action-btn delete"
+                                   onclick="return confirm('Delete this member? This cannot be undone.')">🗑️ Delete</a>
+                            <?php endif; ?>
                         </div>
-                        <?php endif; ?>
                     </div>
                 </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class="member-card">
-                    <div class="empty-state"><?= $filter === 'pending' ? 'No pending members.' : 'No members found.'; ?></div>
+                    <div class="empty-state">
+                        <?= $filter === 'pending' ? 'No pending members.' : 'No members found.'; ?>
+                    </div>
                 </div>
             <?php endif; ?>
         </div>

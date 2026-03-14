@@ -13,75 +13,34 @@ $success = '';
 
 // ====================================
 // APPROVE / REJECT BORROW REQUEST
+// NOTE: Approving only marks the request approved.
+// Available copies do NOT change here.
+// They decrease only when the librarian physically
+// issues the book via issue_books.php.
 // ====================================
 if (isset($_GET['approve_req']) || isset($_GET['reject_req'])) {
     $reqId  = (int)($_GET['approve_req'] ?? $_GET['reject_req']);
     $action = isset($_GET['approve_req']) ? 'approved' : 'rejected';
     $redir  = isset($_GET['view']) ? '?view=' . (int)$_GET['view'] : '';
 
-    // Fetch request details
-    $stmt = $conn->prepare("SELECT br.*, b.available_copies, b.title
-                             FROM borrow_requests br
-                             JOIN books b ON br.book_id = b.book_id
-                             WHERE br.request_id = ? AND br.status = 'pending'");
-    $stmt->bind_param("i", $reqId);
+    $stmt = $conn->prepare("UPDATE borrow_requests
+                             SET status = ?, reviewed_by = ?, reviewed_at = NOW()
+                             WHERE request_id = ? AND status = 'pending'");
+    $stmt->bind_param("sii", $action, $user['id'], $reqId);
     $stmt->execute();
-    $req = $stmt->get_result()->fetch_assoc();
 
-    if (!$req) {
-        $success = "Request not found or already processed.";
-    } elseif ($action === 'approved') {
-        // Guard: book still available?
-        if ($req['available_copies'] <= 0) {
-            $success = "❌ Cannot approve — no copies of \"{$req['title']}\" are available.";
-        } else {
-            // 1. Mark request approved
-            $stmt = $conn->prepare("UPDATE borrow_requests
-                                    SET status = 'approved', reviewed_by = ?, reviewed_at = NOW()
-                                    WHERE request_id = ?");
-            $stmt->bind_param("ii", $user['id'], $reqId);
-            $stmt->execute();
+    $msg = $action === 'approved'
+        ? "Request approved. Member can now visit the library to collect the book."
+        : "Request rejected.";
 
-            // 2. Create an issue record (14-day default loan)
-            $issueDate  = date('Y-m-d');
-            $dueDate    = date('Y-m-d', strtotime('+14 days'));
-            $status     = 'issued';
-            $issuedById = $user['id'];
-
-            $stmt = $conn->prepare("INSERT INTO issues
-                                    (book_id, user_id, issue_date, due_date, status, issued_by)
-                                    VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("iisssi",
-                $req['book_id'], $req['user_id'],
-                $issueDate, $dueDate, $status, $issuedById);
-            $stmt->execute();
-
-            // 3. Decrement available_copies
-            $stmt = $conn->prepare("UPDATE books
-                                    SET available_copies = available_copies - 1
-                                    WHERE book_id = ? AND available_copies > 0");
-            $stmt->bind_param("i", $req['book_id']);
-            $stmt->execute();
-
-            $success = "✅ Request approved — \"{$req['title']}\" issued. Due: " . date('M d, Y', strtotime($dueDate));
-        }
-    } else {
-        // Rejected — just update status
-        $stmt = $conn->prepare("UPDATE borrow_requests
-                                SET status = 'rejected', reviewed_by = ?, reviewed_at = NOW()
-                                WHERE request_id = ?");
-        $stmt->bind_param("ii", $user['id'], $reqId);
-        $stmt->execute();
-        $success = "Request rejected.";
-    }
-
-    header("Location: view_members.php$redir" . ($redir ? '&' : '?') . "msg=" . urlencode($success));
+    $sep = $redir ? '&' : '?';
+    header("Location: view_members.php{$redir}{$sep}msg=" . urlencode($msg));
     exit();
 }
 
 // Pick up flash message from redirect
 if (!empty($_GET['msg'])) {
-    $success = $_GET['msg'];
+    $success = htmlspecialchars($_GET['msg']);
 }
 
 $searchTerm = '';
