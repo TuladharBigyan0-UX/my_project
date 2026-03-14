@@ -102,39 +102,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $errors[] = "Failed to add book.";
             }
         } else {
-            // EDIT EXISTING BOOK
-            // Calculate available copies adjustment
-            $stmt = $conn->prepare("SELECT total_copies, available_copies FROM books WHERE book_id = ?");
-            $stmt->bind_param("i", $bookId);
-            $stmt->execute();
-            $oldData = $stmt->get_result()->fetch_assoc();
-            
-            $difference = $totalCopies - $oldData['total_copies'];
-            $newAvailable = $oldData['available_copies'] + $difference;
-            
-            // Ensure available copies don't go negative
-            if ($newAvailable < 0) {
-                $errors[] = "Cannot reduce total copies below currently issued copies.";
-            } else {
-                $stmt = $conn->prepare("
-                    UPDATE books 
-                    SET title = ?, author = ?, isbn = ?, category = ?, publisher = ?, 
-                        publication_year = ?, total_copies = ?, available_copies = ?, shelf_location = ?
-                    WHERE book_id = ?
-                ");
-                $stmt->bind_param(
-                    "sssssiisi",
-                    $title, $author, $isbn, $category, $publisher, 
-                    $publicationYear, $totalCopies, $newAvailable, $shelfLocation, $bookId
-                );
-                
-                if ($stmt->execute()) {
-                    header("Location: manage_books.php");
-                    exit();
-                } else {
-                    $errors[] = "Failed to update book.";
-                }
-            }
+// EDIT EXISTING BOOK
+// Calculate available copies adjustment
+$stmt = $conn->prepare("SELECT total_copies, available_copies FROM books WHERE book_id = ?");
+$stmt->bind_param("i", $bookId);
+$stmt->execute();
+$oldData = $stmt->get_result()->fetch_assoc();
+
+$difference = $totalCopies - $oldData['total_copies'];
+$newAvailable = $oldData['available_copies'] + $difference;
+
+// Ensure available copies don't go negative
+if ($newAvailable < 0) {
+    $errors[] = "Cannot reduce total copies below currently issued copies.";
+} else {
+    $stmt = $conn->prepare("
+        UPDATE books 
+        SET title = ?, author = ?, isbn = ?, category = ?, publisher = ?, 
+            publication_year = ?, total_copies = ?, available_copies = ?, shelf_location = ?
+        WHERE book_id = ?
+    ");
+
+    // FIXED LINE (added one 's')
+    $stmt->bind_param(
+        "sssssiiisi",
+        $title, $author, $isbn, $category, $publisher,
+        $publicationYear, $totalCopies, $newAvailable, $shelfLocation, $bookId
+    );
+
+    if ($stmt->execute()) {
+        header("Location: book_list.php");
+        exit();
+    } else {
+        $errors[] = "Failed to update book.";
+    }
+}
         }
     }
     

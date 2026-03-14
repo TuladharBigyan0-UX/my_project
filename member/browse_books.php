@@ -500,22 +500,6 @@ $canBorrowMore = $activeIssues < 3;
             max-width: 440px;
             width: 100%;
         }
-        .modal-box h3 { font-size: 18px; color: var(--text-primary); margin-bottom: 6px; }
-        .modal-book   { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
-        .modal-box textarea {
-            width: 100%;
-            padding: 11px 14px;
-            background: rgba(255,255,255,.05);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 14px;
-            resize: vertical;
-            min-height: 80px;
-            box-sizing: border-box;
-            margin-bottom: 18px;
-        }
-        .modal-box textarea:focus { outline: none; border-color: var(--green); }
         .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
         .modal-cancel  { padding: 10px 20px; background: var(--border-color); color: var(--text-primary); border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
         .modal-submit  { padding: 10px 22px; background: var(--green); color: #000; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all .2s; }
@@ -749,10 +733,6 @@ $canBorrowMore = $activeIssues < 3;
         <div class="modal-book" id="modalBookInfo"></div>
         <form method="POST">
             <input type="hidden" name="book_id" id="modalBookId">
-            <label style="display:block;font-size:13px;color:var(--text-secondary);margin-bottom:6px;">
-                Note to librarian <span style="color:var(--text-muted);">(optional)</span>
-            </label>
-            <textarea name="notes" placeholder="e.g. I need this for a project…"></textarea>
             <div class="modal-actions">
                 <button type="button" class="modal-cancel" onclick="closeModal()">Cancel</button>
                 <button type="submit" name="request_borrow" class="modal-submit">Submit Request</button>
