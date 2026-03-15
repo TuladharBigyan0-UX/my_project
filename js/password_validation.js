@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const confirmError = document.getElementById("confirmPasswordError");
     const contactError = document.getElementById("contactError");
 
-    // ✅ Show / Hide password
+    //  Show / Hide password
     document.querySelectorAll(".toggle-btn").forEach(btn => {
         btn.addEventListener("click", function () {
             const input = document.getElementById(this.dataset.target);
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // ✅ Form submission validation
+    //  Form submission validation
     form.addEventListener("submit", function (e) {
         let valid = true;
 
