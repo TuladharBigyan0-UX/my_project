@@ -47,7 +47,7 @@ header {
     justify-content: space-between;
     padding: 14px 30px;
     gap: 20px;
-    position: relative;  /* so nav can absolute-position below it */
+    position: relative;  
 }
 
 .logo {
@@ -134,7 +134,6 @@ nav ul li a:hover { color: #00c853; }
     cursor: pointer;
     flex-shrink: 0;
     transition: background 0.2s;
-    /* Ensure it never gets overridden by mobile_menu.js styles */
     position: static !important;
 }
 .nav-toggle:hover { background: rgba(0,200,83,0.1); }
